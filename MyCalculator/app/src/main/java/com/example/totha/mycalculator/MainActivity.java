@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
@@ -21,10 +22,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //int op2;
     //String operator;
 
-    Stack<Double> stack;
-    double number1;
-    double number2;
-
     double prevNum;
     Character operator;
 
@@ -34,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         resultTextView = (TextView) findViewById(R.id.resultTextView);
         GridLayout buttonGridLayout = (GridLayout) findViewById(R.id.buttonGridLayout);
-        stack = new Stack<Double>();
+
 
         oneButton = (Button) findViewById(R.id.one);
         twoButton = (Button) findViewById(R.id.two);
@@ -70,13 +67,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         switch(buttonText){
             case "=":  /*reversePolishForm(prevResult);*/ break;
-            case "+":
-                if()
-                prevNum = Integer.parseInt(prevResult);
-                operator = '+';
-            case "-":
-            case "*":
-            case "/":
+            case "+":                      break;
+            case "-":break;
+            case "*":break;
+            case "/":break;
             default: resultTextView.setText(prevResult + buttonText); break;
         }
 
@@ -86,43 +80,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public void reversePolishForm(String result) {
-    /*--------------------------------------------------------*/
-    /*--------------------ASDASDASDASDASDA------------------------------------*/
-    /*--------------------------------------------------------*/
-    /*--------------------------------------------------------*/
-        while (result.hasMoreElements()) {
-            str.nextElement();
-            stack.push((Double) str.nextElement());
+    public double reversePolishForm(ArrayList<String> components) {
 
-            for (int i = 0; i < x.length(); i++) {
+        Stack<Double> stack = new Stack<Double>();;
+        double num1;
+        double num2;
 
-                switch (x.charAt(i)) {
-                    case '+':
-                        number1 = stack.pop();
-                        number2 = stack.pop();
-                        System.out.println(number1 + number2);
-                        break;
-                    case '-':
-                        number1 = stack.pop();
-                        number2 = stack.pop();
-                        System.out.println(number1 - number2);
-                        break;
-                    case '/':
-                        number1 = stack.pop();
-                        number2 = stack.pop();
-                        System.out.println(number1 / number2);
-                        break;
-                    case '*':
-                        number1 = stack.pop();
-                        number2 = stack.pop();
-                        System.out.println(number1 * number2);
-                        break;
-                }
-
+        for(String comp : components){
+            if(comp.equals("+")) {
+                num2 = stack.pop();
+                num1 = stack.pop();
+                stack.push(num1 + num2);
             }
-            System.out.println(stack.pop());
+            else if(comp.equals("-")) {
+                num2 = stack.pop();
+                num1 = stack.pop();
+                stack.push(num1 - num2);
+            }
+            else if(comp.equals("*")) {
+                num2 = stack.pop();
+                num1 = stack.pop();
+                stack.push(num1 * num2);
+            }
+            else if(comp.equals("/")){
+                num2 = stack.pop();
+                num1 = stack.pop();
+                stack.push(num1 / num2);
+            }
+            else {
+                stack.push(Double.parseDouble(comp));
+            }
         }
+        return stack.pop();
     }
 
     public void write(){
