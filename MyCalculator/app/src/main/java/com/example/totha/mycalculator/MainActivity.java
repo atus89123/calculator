@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch(buttonText){
             case "=":  /*reversePolishForm(prevResult);*/ break;
             case "+":
-                if()
+                //if()
                 prevNum = Integer.parseInt(prevResult);
                 operator = '+';
             case "-":
@@ -86,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public void reversePolishForm(String result) {
+   /* public void reversePolishForm(String result) {
 
         while (result.hasMoreElements()) {
             str.nextElement();
@@ -120,6 +121,108 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             System.out.println(stack.pop());
         }
+    }*/
+
+    public ArrayList<String> polishForm(String equation){
+        int i = 0;
+        ArrayList<String> polishF = new ArrayList<String>();
+        Stack<Character> operator = new Stack<Character>();
+        String number = "";
+        Character c = ' ';
+        while(i < equation.length()){
+            char character = equation.charAt(i);
+            switch(character){
+                case '+':
+                    polishF.add(number);
+                    number = "";
+                    if(!operator.isEmpty()){
+                        c = operator.pop();
+                        if(c == '+' || c == '-'){
+                            polishF.add(c.toString());
+                            operator.push(character);
+                        } else{
+                            polishF.add(c.toString());
+                            if(operator.isEmpty()){
+                                operator.push(character);
+                            }else{
+                                c = operator.pop();
+                                polishF.add(c.toString());
+                                operator.push(character);
+                            }
+                        }
+                    }else{
+                        operator.push(character);
+                    }
+
+                    break;
+                case '-':
+                    polishF.add(number);
+                    number = "";
+                    if(!operator.isEmpty()){
+                        c = operator.pop();
+                        if(c == '+' || c == '-'){
+                            polishF.add(c.toString());
+                            operator.push(character);
+                        } else{
+                            polishF.add(c.toString());
+                            if(operator.isEmpty()){
+                                operator.push(character);
+                            } else{
+                                c = operator.pop();
+                                polishF.add(c.toString());
+                                operator.push(character);
+                            }
+                        }
+                    } else{
+                        operator.push(character);
+                    }
+                    break;
+                case '*':
+                    polishF.add(number);
+                    number = "";
+                    if(!operator.isEmpty()){
+                        c = operator.pop();
+                        if(c == '+' || c == '-'){
+                            operator.push(c);
+                            operator.push(character);
+                        } else{
+                            polishF.add(c.toString());
+                            operator.push(character);
+                        }
+                    } else{
+                        operator.push(character);
+                    }
+                    break;
+                case '/':
+                    polishF.add(number);
+                    number = "";
+                    if(!operator.isEmpty()){
+                        c = operator.pop();
+                        if(c == '+' || c == '-'){
+                            operator.push(c);
+                            operator.push(character);
+                        } else{
+                            polishF.add(c.toString());
+                            operator.push(character);
+                        }
+                    } else{
+                        operator.push(character);
+                    }
+                    break;
+                default:
+                    number += character;
+                    break;
+            }
+            ++i;
+        }
+        if(!number.equals("")){
+            polishF.add(number);
+        }
+        while(!operator.isEmpty()){
+            c = operator.pop();
+           // System.out.println(c);
+            polishF.add(c.toString());
+        }
+        return polishF;
     }
 }
-

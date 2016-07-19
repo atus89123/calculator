@@ -12,4 +12,11 @@ public class ExampleUnitTest {
     public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 + 2);
     }
+
+    @Test
+    public void polishForm(){
+        MainActivity activity = new MainActivity();
+        assertTrue("Hibas", activity.polishForm("123+123").equals("[123, 123, +]"));
+        assertTrue("Hibas2", activity.polishForm("123-23-2+11*20/10").equals("[123, 23, -, 2, -, 11, 20, *, 10, /, +]"));
+    }
 }
