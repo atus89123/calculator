@@ -87,7 +87,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void reversePolishForm(String result) {
-
+    /*--------------------------------------------------------*/
+    /*--------------------ASDASDASDASDASDA------------------------------------*/
+    /*--------------------------------------------------------*/
+    /*--------------------------------------------------------*/
         while (result.hasMoreElements()) {
             str.nextElement();
             stack.push((Double) str.nextElement());
