@@ -18,12 +18,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     TextView resultTextView;
     Button oneButton, twoButton, threeButton, fourButton, fiveButton, sixButton, sevenButton, eightButton, nineButton, zeroButton, addButton, subButton, mulButton, divButton, clearButton, equalButton;
-    //int op1;
-    //int op2;
-    //String operator;
 
     double prevNum;
-    Character operator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,17 +40,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         nineButton = (Button) findViewById(R.id.nine);
         zeroButton = (Button) findViewById(R.id.zero);
 
-        /*for(int i = 0; i < 8; ++i){
-            Button calcButton = new Button(this);
-            calcButton.setLayoutParams(new ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT));
-            calcButton.setText( i + "");
-            buttonGridLayout.addView(calcButton);
-            switch(i){
-
-            }
-        }*/
     }
 
 
@@ -67,10 +52,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         switch(buttonText){
             case "=":  /*reversePolishForm(prevResult);*/ break;
-            case "+":                      break;
-            case "-":break;
-            case "*":break;
-            case "/":break;
             default: resultTextView.setText(prevResult + buttonText); break;
         }
 
@@ -114,8 +95,107 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return stack.pop();
     }
 
-    public void write(){
-        
+
+    public ArrayList<String> polishForm(String equation){
+        int i = 0;
+        ArrayList<String> polishF = new ArrayList<String>();
+        Stack<Character> operator = new Stack<Character>();
+        String number = "";
+        Character c = ' ';
+        while(i < equation.length()){
+            char character = equation.charAt(i);
+            switch(character){
+                case '+':
+                    polishF.add(number);
+                    number = "";
+                    if(!operator.isEmpty()){
+                        c = operator.pop();
+                        if(c == '+' || c == '-'){
+                            polishF.add(c.toString());
+                            operator.push(character);
+                        } else{
+                            polishF.add(c.toString());
+                            if(operator.isEmpty()){
+                                operator.push(character);
+                            }else{
+                                c = operator.pop();
+                                polishF.add(c.toString());
+                                operator.push(character);
+                            }
+                        }
+                    }else{
+                        operator.push(character);
+                    }
+
+                    break;
+                case '-':
+                    polishF.add(number);
+                    number = "";
+                    if(!operator.isEmpty()){
+                        c = operator.pop();
+                        if(c == '+' || c == '-'){
+                            polishF.add(c.toString());
+                            operator.push(character);
+                        } else{
+                            polishF.add(c.toString());
+                            if(operator.isEmpty()){
+                                operator.push(character);
+                            } else{
+                                c = operator.pop();
+                                polishF.add(c.toString());
+                                operator.push(character);
+                            }
+                        }
+                    } else{
+                        operator.push(character);
+                    }
+                    break;
+                case '*':
+                    polishF.add(number);
+                    number = "";
+                    if(!operator.isEmpty()){
+                        c = operator.pop();
+                        if(c == '+' || c == '-'){
+                            operator.push(c);
+                            operator.push(character);
+                        } else{
+                            polishF.add(c.toString());
+                            operator.push(character);
+                        }
+                    } else{
+                        operator.push(character);
+                    }
+                    break;
+                case '/':
+                    polishF.add(number);
+                    number = "";
+                    if(!operator.isEmpty()){
+                        c = operator.pop();
+                        if(c == '+' || c == '-'){
+                            operator.push(c);
+                            operator.push(character);
+                        } else{
+                            polishF.add(c.toString());
+                            operator.push(character);
+                        }
+                    } else{
+                        operator.push(character);
+                    }
+                    break;
+                default:
+                    number += character;
+                    break;
+            }
+            ++i;
+        }
+        if(!number.equals("")){
+            polishF.add(number);
+        }
+        while(!operator.isEmpty()){
+            c = operator.pop();
+           // System.out.println(c);
+            polishF.add(c.toString());
+        }
+        return polishF;
     }
 }
-

@@ -16,9 +16,9 @@ public class ExampleUnitTest {
     }
 
     @Test
-    public void reversePolishFormTest(){
+    public void reversePolishFormTest() {
         MainActivity activity = new MainActivity();
-        ArrayList<String> test= new ArrayList<String>();
+        ArrayList<String> test = new ArrayList<String>();
         test.add("1");
         test.add("2");
         test.add("2.5");
@@ -26,6 +26,16 @@ public class ExampleUnitTest {
         test.add("10");
         test.add("/");
         test.add("+");
-        assertTrue("Hibas", activity.reversePolishForm( test ) == 1.5);
+        assertTrue("Hibas", activity.reversePolishForm(test) == 1.5);
     }
+
+    @Test
+    public void fullPolishFormTest() {
+        MainActivity activity = new MainActivity();
+        ArrayList<String> test = new ArrayList<String>();
+        String asd = "1.5+5/2*8*1.5-2";
+        assertTrue("Hibas", activity.reversePolishForm( activity.polishForm(asd) ) == 29.5);
+    }
+
+
 }
