@@ -3,6 +3,7 @@ package com.example.totha.mycalculator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -14,6 +15,15 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Stack;
 
+
+//TO_DO
+/*
+
+- AUTOMATIC SRCOLL DOWN
+
+- GRIDLAYOUT SIZE ELEMNTS
+
+ */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     TextView resultTextView;
@@ -39,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         eightButton = (Button) findViewById(R.id.eight);
         nineButton = (Button) findViewById(R.id.nine);
         zeroButton = (Button) findViewById(R.id.zero);
+
+        resultTextView.setMovementMethod(new ScrollingMovementMethod());
 
     }
 

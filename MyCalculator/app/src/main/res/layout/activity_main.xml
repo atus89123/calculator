@@ -1,4 +1,4 @@
- <?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,33 +9,30 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.totha.mycalculator.MainActivity"
     android:orientation="vertical"
-    android:backgroundTint="#444444"
     android:background="#444444">
 
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="75dp"
         android:text="125"
         android:id="@+id/resultTextView"
-        android:backgroundTint="@color/material_deep_teal_200"
-        android:background="@color/dim_foreground_material_dark"
-        android:textAlignment="viewEnd"
-        android:textSize="@dimen/abc_action_bar_progress_bar_size" />
+        android:textSize="20sp"
+        android:background="#99CCFF"
+        android:gravity="bottom|right"
+        android:scrollbars = "vertical" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/clear"
         android:id="@+id/clear"
+        android:text="@string/clear"
         android:layout_marginTop="25dp"
-        android:textColor="#222222"
-        android:textSize="30sp"
-        android:backgroundTint="#FFCD00" />
+        android:theme="@style/MyOperatorButtonTheme"/>
 
     <GridLayout
         android:id="@+id/buttonGridLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:columnCount="4"
         android:rowCount="4"
@@ -47,127 +44,129 @@
                 android:text="@string/seven"
                 android:id="@+id/seven"
                 android:onClick="onClick"
-                android:textColor="#222222"
-                android:backgroundTint="#009AE6"/>
+                android:theme="@style/MyNumberButtonTheme" />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/eight"
                 android:id="@+id/eight"
                 android:onClick="onClick"
-                android:textColor="#222222"
-                android:backgroundTint="#009AE6"/>
+                android:theme="@style/MyNumberButtonTheme"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/nine"
                 android:id="@+id/nine"
                 android:onClick="onClick"
-                android:textColor="#222222"
-                android:backgroundTint="#009AE6"/>
+                android:theme="@style/MyNumberButtonTheme"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/divide"
                 android:id="@+id/divide"
                 android:onClick="onClick"
-                android:textColor="#222222"
-                android:backgroundTint="#FFCD00"/>
+                android:theme="@style/MyOperatorButtonTheme"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/four"
                 android:id="@+id/four"
                 android:onClick="onClick"
-                android:textColor="#222222"
-                android:backgroundTint="#009AE6"/>
+                android:theme="@style/MyNumberButtonTheme"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/five"
                 android:id="@+id/five"
                 android:onClick="onClick"
-                android:textColor="#222222"
-                android:backgroundTint="#009AE6"/>
+                android:theme="@style/MyNumberButtonTheme"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/six"
                 android:id="@+id/six"
                 android:onClick="onClick"
-                android:textColor="#222222"
-                android:backgroundTint="#009AE6"/>
+                android:theme="@style/MyNumberButtonTheme"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/multiply"
                 android:id="@+id/multiply"
                 android:onClick="onClick"
-                android:textColor="#222222"
-                android:backgroundTint="#FFCD00"/>
+                android:theme="@style/MyOperatorButtonTheme"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/one"
                 android:id="@+id/one"
                 android:onClick="onClick"
-                android:textColor="#222222"
-                android:backgroundTint="#009AE6"/>
+                android:theme="@style/MyNumberButtonTheme"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/two"
                 android:id="@+id/two"
                 android:onClick="onClick"
-                android:textColor="#222222"
-                android:backgroundTint="#009AE6"/>
+                android:theme="@style/MyNumberButtonTheme"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/three"
                 android:id="@+id/three"
                 android:onClick="onClick"
-                android:textColor="#222222"
-                android:backgroundTint="#009AE6"/>
+                android:theme="@style/MyNumberButtonTheme"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/minus"
                 android:id="@+id/minus"
                 android:onClick="onClick"
-                android:textColor="#222222"
-                android:backgroundTint="#FFCD00"/>
+                android:theme="@style/MyOperatorButtonTheme"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/dot"
                 android:id="@+id/dot"
                 android:onClick="onClick"
-                android:textColor="#222222"
-                android:backgroundTint="#FFCD00"/>
+                android:theme="@style/MyOperatorButtonTheme"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/zero"
                 android:id="@+id/zero"
                 android:onClick="onClick"
-                android:textColor="#222222"
-                android:backgroundTint="#009AE6"/>
+                android:theme="@style/MyNumberButtonTheme"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/equals"
                 android:id="@+id/equals"
                 android:onClick="onClick"
-                android:textColor="#222222"
-                android:backgroundTint="#FFCD00"/>
+                android:theme="@style/MyOperatorButtonTheme"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/addition"
                 android:id="@+id/addition"
                 android:onClick="onClick"
-                android:textColor="#222222"
-                android:backgroundTint="#FFCD00"/>
+                android:theme="@style/MyOperatorButtonTheme"/>
     </GridLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/saveResult"
+        android:id="@+id/saveResult"
+        android:layout_marginTop="20dp"
+        android:textSize="30sp"
+        android:theme="@style/MyOperatorButtonTheme"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/showResult"
+        android:id="@+id/showResult"
+        android:textSize="30sp"
+        android:theme="@style/MyOperatorButtonTheme"/>
+
 </LinearLayout>

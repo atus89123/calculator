@@ -17,4 +17,7 @@
     <string name="minus">-</string>
     <string name="equals">=</string>
     <string name="multiply">*</string>
+
+    <string name="saveResult">Save Result</string>
+    <string name="showResult">Show Results</string>
 </resources>
