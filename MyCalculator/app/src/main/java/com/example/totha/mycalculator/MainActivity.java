@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch(buttonText){
             case "=":  /*reversePolishForm(prevResult);*/ break;
             default: resultTextView.setText(prevResult + buttonText); break;
+
         }
 
 
@@ -108,4 +109,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    public ArrayList<String> polishForm(String s){
+        int i = 0;
+        ArrayList<String> polishF = new ArrayList<String>();
+        Stack<Character> operator = new Stack<Character>();
+        String number = "";
+        while(i < s.length()){
+            Character character = s.charAt(i);
+            if(character == '+' || character == '-'){
+                polishF.add(number);
+                number = "";
+                if(operator.isEmpty()) operator.push(character);
+                else{
+                    while(!operator.isEmpty()){
+                        Character stackCharacter = operator.pop();
+                        polishF.add(stackCharacter.toString());
+                    }
+                    operator.push(character);
+                }
+            } else if(character == '*' || character == '/'){
+                polishF.add(number);
+                number = "";
+                if(operator.isEmpty()) operator.push(character);
+                else{
+                    while(!operator.isEmpty() && (operator.peek() != '+' && operator.peek() != '-')){
+                        Character stackCharacter = operator.pop();
+                        polishF.add(stackCharacter.toString());
+                    }
+                    operator.push(character);
+                }
+            } else{
+                number += character;
+            }
+            ++i;
+        }
+        if(!number.equals("")) polishF.add(number);
+        while(!operator.isEmpty()){
+            Character stackCharacter = operator.pop();
+            polishF.add(stackCharacter.toString());
+        }
+        return polishF;
+
+    }
 }
