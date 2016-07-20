@@ -1,6 +1,8 @@
 package com.example.totha.mycalculator;
 
+import android.content.Intent;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -8,12 +10,18 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.Stack;
 
 
@@ -27,6 +35,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     TextView resultTextView;
     StringBuilder rawStringBuilder;
+    Map<String, Double> resultsMap;
+    public final static String EXTRA_RESULT = "com.mycompany.calculator.MESSAGE";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +50,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         rawStringBuilder = new StringBuilder();
         resultTextView.setText("0");
+
+        resultsMap = new HashMap<String, Double>();
     }
 
 
@@ -166,5 +179,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             polishF.add(stackCharacter.toString());
         }
         return polishF;
+    }
+
+
+
+    /** Called when the user clicks the "show results" button */
+    public void showResults(View view) {
+        Intent intent = new Intent(this, ShowResultsActivity.class);
+        intent.putExtra(EXTRA_RESULT, (Serializable) resultsMap);
+        startActivity(intent);
     }
 }
