@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         resultTextView = (TextView) findViewById(R.id.resultTextView);
         GridLayout buttonGridLayout = (GridLayout) findViewById(R.id.buttonGridLayout);
         stack = new Stack<Double>();
-/*
+
         oneButton = (Button) findViewById(R.id.one);
         twoButton = (Button) findViewById(R.id.two);
         threeButton = (Button) findViewById(R.id.three);
@@ -49,20 +49,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         eightButton = (Button) findViewById(R.id.eight);
         nineButton = (Button) findViewById(R.id.nine);
         zeroButton = (Button) findViewById(R.id.zero);
-*/
+
         rawStringBuilder = new StringBuilder();
         resultTextView.setText("0");
-        /*for(int i = 0; i < 8; ++i){
-            Button calcButton = new Button(this);
-            calcButton.setLayoutParams(new ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT));
-            calcButton.setText( i + "");
-            buttonGridLayout.addView(calcButton);
-            switch(i){
 
-            }
-        }*/
     }
 
 
@@ -97,8 +87,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void validateOperator(StringBuilder rawStringBuilder, String buttonText){
-        if(rawStringBuilder.length() != 0) {
+    private void validateOperator(StringBuilder rawStringBuilder, String buttonText) {
+        if (rawStringBuilder.length() != 0) {
             char lastChar = rawStringBuilder.charAt(rawStringBuilder.length() - 1);
             if ((lastChar == '+') || (lastChar == '-') || (lastChar == '*') ||
                     (lastChar == '/') || lastChar == '.') {
@@ -108,41 +98,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             resultTextView.setText(rawStringBuilder.toString());
         }
     }
-
-   /* public void reversePolishForm(String result) {
-
-        while (result.hasMoreElements()) {
-            str.nextElement();
-            stack.push((Double) str.nextElement());
-
-            for (int i = 0; i < x.length(); i++) {
-
-                switch (x.charAt(i)) {
-                    case '+':
-                        number1 = stack.pop();
-                        number2 = stack.pop();
-                        System.out.println(number1 + number2);
-                        break;
-                    case '-':
-                        number1 = stack.pop();
-                        number2 = stack.pop();
-                        System.out.println(number1 - number2);
-                        break;
-                    case '/':
-                        number1 = stack.pop();
-                        number2 = stack.pop();
-                        System.out.println(number1 / number2);
-                        break;
-                    case '*':
-                        number1 = stack.pop();
-                        number2 = stack.pop();
-                        System.out.println(number1 * number2);
-                        break;
-                }
-
-            }
-            System.out.println(stack.pop());
-        }
-    }*/
 }
 
