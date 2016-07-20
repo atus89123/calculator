@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     TextView resultTextView;
     StringBuilder rawStringBuilder;
+    Boolean resultIsCalculated;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         resultTextView.setMovementMethod(new ScrollingMovementMethod());
 
         rawStringBuilder = new StringBuilder();
+        resultIsCalculated = false;
+
         resultTextView.setText("0");
     }
 
@@ -43,31 +46,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         switch(buttonText){
 
-            case "=": if(rawStringBuilder.toString().equals("")){ // operator után = javítani!!
-                        break;
-                    }
-                    double res = reversePolishForm(polishForm(rawStringBuilder.toString()));
-                    resultTextView.setText(rawStringBuilder.toString() + " = " + res);
-                    rawStringBuilder.setLength(0);
+            case "=":
+                String finalString = rawStringBuilder.toString();
+                if(finalString.equals("")) break;
+                double res = reversePolishForm(polishForm(rawStringBuilder.toString()));
+                resultTextView.setText(finalString + " = " + res);
+                rawStringBuilder.setLength(0);
+                rawStringBuilder.append(res);
+                resultIsCalculated = true;
                 break;
-
             case "+": case "-": case "*": case "/":
+                resultIsCalculated = false;
                 validateOperator(rawStringBuilder, buttonText);
+
                 break;
             case ".":
                 String[] tmp = rawStringBuilder.toString().split("[^\\d\\.\\d]");
-                if(tmp.length != 0 && !tmp[tmp.length-1].contains(".")){
-                    validateOperator(rawStringBuilder, buttonText);
-                }
+                if(tmp.length != 0 && !tmp[tmp.length-1].contains(".")) validateOperator(rawStringBuilder, buttonText);
+
+                break;
+            case "Clear":
+                resultIsCalculated = false;
+                rawStringBuilder.setLength(0);
+                resultTextView.setText("0");
+
                 break;
             default:
-                if(buttonText.equals("Clear")){
-                    rawStringBuilder.delete(0, rawStringBuilder.length());
-                    resultTextView.setText("0");}
-                else {
-                    rawStringBuilder.append(buttonText);
-                    resultTextView.setText(rawStringBuilder.toString());
+                if(resultIsCalculated) {
+                    resultIsCalculated = false;
+                    rawStringBuilder.setLength(0);
                 }
+                rawStringBuilder.append(buttonText);
+                resultTextView.setText(rawStringBuilder.toString());
                 break;
         }
     }
