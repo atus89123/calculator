@@ -1,17 +1,12 @@
 package com.example.totha.mycalculator;
 
-import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Stack;
@@ -78,7 +73,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public double reversePolishForm(ArrayList<String> components) {
-        //if(components.isEmpty()) return 0;
         Stack<Double> stack = new Stack<Double>();;
         double num1;
         double num2;
@@ -158,11 +152,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             ++i;
         }
-        /*if(!number.equals("")) polishF.add(number);
+        if(!number.equals("")) polishF.add(number);
         while(!operator.isEmpty()){
             Character stackCharacter = operator.pop();
             polishF.add(stackCharacter.toString());
         }
         return polishF;
-    }*/
+    }
 }
