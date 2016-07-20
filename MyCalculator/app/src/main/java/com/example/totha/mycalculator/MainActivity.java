@@ -175,10 +175,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void saveResult(View v){
         Date date = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM.dd. H:mm");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM.dd. H:mm:ss");
         String result = resultTextView.getText().toString();
         String[] splitResult = result.split("=");
         Double doubleResult = Double.parseDouble(splitResult[1]);
         resultsMap.put(dateFormat.format(date), doubleResult);
+        System.out.println(resultsMap.size());
     }
 }
