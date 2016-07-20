@@ -1,5 +1,6 @@
 package com.example.totha.mycalculator;
 
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -28,6 +29,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     double prevNum;
     Character operator;
 
+    StringBuilder rawStringBuilder;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         resultTextView = (TextView) findViewById(R.id.resultTextView);
         GridLayout buttonGridLayout = (GridLayout) findViewById(R.id.buttonGridLayout);
         stack = new Stack<Double>();
-
+/*
         oneButton = (Button) findViewById(R.id.one);
         twoButton = (Button) findViewById(R.id.two);
         threeButton = (Button) findViewById(R.id.three);
@@ -46,7 +49,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         eightButton = (Button) findViewById(R.id.eight);
         nineButton = (Button) findViewById(R.id.nine);
         zeroButton = (Button) findViewById(R.id.zero);
-
+*/
+        rawStringBuilder = new StringBuilder();
+        resultTextView.setText("0");
         /*for(int i = 0; i < 8; ++i){
             Button calcButton = new Button(this);
             calcButton.setLayoutParams(new ViewGroup.LayoutParams(
@@ -63,30 +68,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        String prevResult = (String) resultTextView.getText().toString();
 
         Button button =(Button)v;
         String buttonText = button.getText().toString();
 
         switch(buttonText){
-            case "=":  /*reversePolishForm(prevResult);*/ break;
-            case "+":
-                if()
-                prevNum = Integer.parseInt(prevResult);
-                operator = '+';
-            case "-":
-            case "*":
-            case "/":
-            default: resultTextView.setText(prevResult + buttonText); break;
+            case "=":
+                //reversePolishForm(null);
+                break;
+            case "+": case "-": case "*": case "/":
+                validateOperator(rawStringBuilder, buttonText);
+                break;
+            case ".":
+                String[] tmp = rawStringBuilder.toString().split("[^\\d\\.\\d]");
+                if(tmp.length != 0 && !tmp[tmp.length-1].contains(".")){
+                    validateOperator(rawStringBuilder, buttonText);
+                }
+                break;
+            default:
+                if(buttonText.equals("Clear")){
+                    rawStringBuilder.delete(0, rawStringBuilder.length());
+                    resultTextView.setText("0");}
+                else {
+                    rawStringBuilder.append(buttonText);
+                    resultTextView.setText(rawStringBuilder.toString());
+                }
+                break;
         }
-
-
-
-        //resultTextView.setText(prevResult + buttonText);
-
     }
 
-    public void reversePolishForm(String result) {
+    private void validateOperator(StringBuilder rawStringBuilder, String buttonText){
+        if(rawStringBuilder.length() != 0) {
+            char lastChar = rawStringBuilder.charAt(rawStringBuilder.length() - 1);
+            if ((lastChar == '+') || (lastChar == '-') || (lastChar == '*') ||
+                    (lastChar == '/') || lastChar == '.') {
+                rawStringBuilder.deleteCharAt(rawStringBuilder.length() - 1);
+            }
+            rawStringBuilder.append(buttonText);
+            resultTextView.setText(rawStringBuilder.toString());
+        }
+    }
+
+   /* public void reversePolishForm(String result) {
 
         while (result.hasMoreElements()) {
             str.nextElement();
@@ -120,10 +143,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             System.out.println(stack.pop());
         }
-    }
-
-    public void write(){
-
-    }
+    }*/
 }
 
