@@ -1,5 +1,6 @@
 package com.example.totha.mycalculator;
 
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -16,20 +17,14 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 
-//TO_DO
-/*
+/*          TO_DO           */
+/*  - AUTOMATIC SRCOLL DOWN
+    - GRIDLAYOUT SIZE ELEMNTS   */
 
-- AUTOMATIC SRCOLL DOWN
-
-- GRIDLAYOUT SIZE ELEMNTS
-
- */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     TextView resultTextView;
-    Button oneButton, twoButton, threeButton, fourButton, fiveButton, sixButton, sevenButton, eightButton, nineButton, zeroButton, addButton, subButton, mulButton, divButton, clearButton, equalButton;
-
-    double prevNum;
+    StringBuilder rawStringBuilder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,44 +33,52 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         resultTextView = (TextView) findViewById(R.id.resultTextView);
         GridLayout buttonGridLayout = (GridLayout) findViewById(R.id.buttonGridLayout);
 
-
-        oneButton = (Button) findViewById(R.id.one);
-        twoButton = (Button) findViewById(R.id.two);
-        threeButton = (Button) findViewById(R.id.three);
-        fourButton = (Button) findViewById(R.id.four);
-        fiveButton = (Button) findViewById(R.id.five);
-        sixButton = (Button) findViewById(R.id.six);
-        sevenButton = (Button) findViewById(R.id.seven);
-        eightButton = (Button) findViewById(R.id.eight);
-        nineButton = (Button) findViewById(R.id.nine);
-        zeroButton = (Button) findViewById(R.id.zero);
-
         resultTextView.setMovementMethod(new ScrollingMovementMethod());
 
+        rawStringBuilder = new StringBuilder();
+        resultTextView.setText("0");
     }
 
 
     @Override
     public void onClick(View v) {
-        String prevResult = (String) resultTextView.getText().toString();
 
         Button button =(Button)v;
         String buttonText = button.getText().toString();
 
         switch(buttonText){
-            case "=":  /*reversePolishForm(prevResult);*/ break;
-            default: resultTextView.setText(prevResult + buttonText); break;
 
+            case "=": if(rawStringBuilder.toString().equals("")){ // operator után = javítani!!
+                        break;
+                    }
+                    double res = reversePolishForm(polishForm(rawStringBuilder.toString()));
+                    resultTextView.setText(rawStringBuilder.toString() + " = " + res);
+                    rawStringBuilder.setLength(0);
+                break;
+
+            case "+": case "-": case "*": case "/":
+                validateOperator(rawStringBuilder, buttonText);
+                break;
+            case ".":
+                String[] tmp = rawStringBuilder.toString().split("[^\\d\\.\\d]");
+                if(tmp.length != 0 && !tmp[tmp.length-1].contains(".")){
+                    validateOperator(rawStringBuilder, buttonText);
+                }
+                break;
+            default:
+                if(buttonText.equals("Clear")){
+                    rawStringBuilder.delete(0, rawStringBuilder.length());
+                    resultTextView.setText("0");}
+                else {
+                    rawStringBuilder.append(buttonText);
+                    resultTextView.setText(rawStringBuilder.toString());
+                }
+                break;
         }
-
-
-
-        //resultTextView.setText(prevResult + buttonText);
-
     }
 
     public double reversePolishForm(ArrayList<String> components) {
-
+        //if(components.isEmpty()) return 0;
         Stack<Double> stack = new Stack<Double>();;
         double num1;
         double num2;
@@ -104,8 +107,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             else {
                 stack.push(Double.parseDouble(comp));
             }
-        }
+         }
         return stack.pop();
+    }
+
+    private void validateOperator(StringBuilder rawStringBuilder, String buttonText) {
+        if (rawStringBuilder.length() != 0) {
+            char lastChar = rawStringBuilder.charAt(rawStringBuilder.length() - 1);
+            if ((lastChar == '+') || (lastChar == '-') || (lastChar == '*') ||
+                    (lastChar == '/') || lastChar == '.') {
+                rawStringBuilder.deleteCharAt(rawStringBuilder.length() - 1);
+            }
+            rawStringBuilder.append(buttonText);
+            resultTextView.setText(rawStringBuilder.toString());
+        }
     }
 
 
@@ -149,6 +164,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             polishF.add(stackCharacter.toString());
         }
         return polishF;
-
     }
 }

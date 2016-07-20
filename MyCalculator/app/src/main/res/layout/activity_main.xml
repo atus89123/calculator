@@ -22,13 +22,16 @@
         android:gravity="bottom|right"
         android:scrollbars = "vertical" />
 
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/clear"
         android:text="@string/clear"
         android:layout_marginTop="25dp"
+        android:onClick="onClick"
         android:theme="@style/MyOperatorButtonTheme"/>
+
 
     <GridLayout
         android:id="@+id/buttonGridLayout"
@@ -66,6 +69,7 @@
                 android:id="@+id/divide"
                 android:onClick="onClick"
                 android:theme="@style/MyOperatorButtonTheme"/>
+
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
