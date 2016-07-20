@@ -158,11 +158,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             ++i;
         }
-        if(!number.equals("")) polishF.add(number);
+        /*if(!number.equals("")) polishF.add(number);
         while(!operator.isEmpty()){
             Character stackCharacter = operator.pop();
             polishF.add(stackCharacter.toString());
         }
         return polishF;
-    }
+    }*/
 }
