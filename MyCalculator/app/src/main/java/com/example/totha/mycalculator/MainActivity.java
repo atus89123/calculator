@@ -19,7 +19,9 @@ import java.util.Stack;
 
 /*          TO_DO           */
 /*  - AUTOMATIC SRCOLL DOWN
-    - GRIDLAYOUT SIZE ELEMNTS   */
+    - GRIDLAYOUT SIZE ELEMNTS
+    - SAVE
+    - SHOW                  */
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
