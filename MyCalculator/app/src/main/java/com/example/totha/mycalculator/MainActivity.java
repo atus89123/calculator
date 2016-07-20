@@ -1,19 +1,20 @@
 package com.example.totha.mycalculator;
 
-import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.Stack;
 
 
@@ -25,6 +26,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     TextView resultTextView;
     StringBuilder rawStringBuilder;
+    Map<String, Double> resultsMap;
+    Button saveResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +35,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         resultTextView = (TextView) findViewById(R.id.resultTextView);
         GridLayout buttonGridLayout = (GridLayout) findViewById(R.id.buttonGridLayout);
-
+        resultsMap = new HashMap<String, Double>();
         resultTextView.setMovementMethod(new ScrollingMovementMethod());
 
         rawStringBuilder = new StringBuilder();
         resultTextView.setText("0");
+        saveResult = (Button)findViewById(R.id.saveResult);
+        saveResult.setEnabled(false);
     }
 
 
@@ -53,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                     double res = reversePolishForm(polishForm(rawStringBuilder.toString()));
                     resultTextView.setText(rawStringBuilder.toString() + " = " + res);
+                    saveResult.setEnabled(true);
                     rawStringBuilder.setLength(0);
                 break;
 
@@ -66,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             default:
+                saveResult.setEnabled(false);
                 if(buttonText.equals("Clear")){
                     rawStringBuilder.delete(0, rawStringBuilder.length());
                     resultTextView.setText("0");}
@@ -164,5 +171,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             polishF.add(stackCharacter.toString());
         }
         return polishF;
+    }
+
+    public void saveResult(View v){
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM.dd. H:mm");
+        String result = resultTextView.getText().toString();
+        String[] splitResult = result.split("=");
+        Double doubleResult = Double.parseDouble(splitResult[1]);
+        resultsMap.put(dateFormat.format(date), doubleResult);
     }
 }
