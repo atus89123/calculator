@@ -7,14 +7,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.Stack;
 
 
@@ -130,35 +128,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-
-    public ArrayList<String> polishForm(String s){
+    /**
+     * Returns an ArrayList object. The equationString argument
+     * is the equation in the normal form. The polishForm method shape the
+     * equation in polish form and save the arguments (in String form) in ArrayList
+     * @param equationString is the equation in normal form
+     * @return an ArrayList
+     */
+    public ArrayList<String> polishForm(String equationString){
         int i = 0;
         ArrayList<String> polishF = new ArrayList<String>();
-        Stack<Character> operator = new Stack<Character>();
+        Stack<Character> operators = new Stack<Character>();
         String number = "";
-        while(i < s.length()){
-            Character character = s.charAt(i);
+        while(i < equationString.length()){
+            Character character = equationString.charAt(i);
             if(character == '+' || character == '-'){
                 polishF.add(number);
                 number = "";
-                if(operator.isEmpty()) operator.push(character);
+                if(operators.isEmpty()) operators.push(character);
                 else{
-                    while(!operator.isEmpty()){
-                        Character stackCharacter = operator.pop();
+                    while(!operators.isEmpty()){
+                        Character stackCharacter = operators.pop();
                         polishF.add(stackCharacter.toString());
                     }
-                    operator.push(character);
+                    operators.push(character);
                 }
             } else if(character == '*' || character == '/'){
                 polishF.add(number);
                 number = "";
-                if(operator.isEmpty()) operator.push(character);
+                if(operators.isEmpty()) operators.push(character);
                 else{
-                    while(!operator.isEmpty() && (operator.peek() != '+' && operator.peek() != '-')){
-                        Character stackCharacter = operator.pop();
+                    while(!operators.isEmpty() && (operators.peek() != '+' && operators.peek() != '-')){
+                        Character stackCharacter = operators.pop();
                         polishF.add(stackCharacter.toString());
                     }
-                    operator.push(character);
+                    operators.push(character);
                 }
             } else{
                 number += character;
@@ -166,13 +170,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ++i;
         }
         if(!number.equals("")) polishF.add(number);
-        while(!operator.isEmpty()){
-            Character stackCharacter = operator.pop();
+        while(!operators.isEmpty()){
+            Character stackCharacter = operators.pop();
             polishF.add(stackCharacter.toString());
         }
         return polishF;
     }
 
+    /**
+     * This method run, when click the Save Result button. This save the TextView text parameters
+     * in Map. The map's key is a Date and the value is a Double. The method first split the String and get the actual date
+     * then put the date and the result in a Map.
+     *
+     * @param v
+     */
     public void saveResult(View v){
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM.dd. H:mm:ss");

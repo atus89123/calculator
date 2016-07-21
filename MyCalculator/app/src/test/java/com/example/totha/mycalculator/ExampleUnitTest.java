@@ -1,14 +1,10 @@
 package com.example.totha.mycalculator;
 
-        import org.junit.Test;
-
-<<<<<<< HEAD
+import org.junit.Test;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
-=======
-        import static org.junit.Assert.*;
->>>>>>> origin/dobi_branch
+
 
 /**
  * To work on unit tests, switch the Test Artifact in the Build Variants view.
@@ -22,7 +18,6 @@ public class ExampleUnitTest {
     @Test
     public void reversePolishFormTest() {
         MainActivity activity = new MainActivity();
-<<<<<<< HEAD
         ArrayList<String> test = new ArrayList<String>();
         test.add("1");
         test.add("2");
@@ -32,10 +27,10 @@ public class ExampleUnitTest {
         test.add("/");
         test.add("+");
         assertTrue("Hibas", activity.reversePolishForm(test) == 1.5);
-=======
+
         assertTrue("Hibas", activity.polishForm("123+123").toString().equals("[123, 123, +]"));
         assertTrue("Hibas2", activity.polishForm("123-23-2+11*20/10").toString().equals("[123, 23, -, 2, -, 11, 20, *, 10, /, +]"));
->>>>>>> origin/dobi_branch
+
     }
 
     @Test
