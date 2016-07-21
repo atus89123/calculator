@@ -8,6 +8,11 @@ import java.util.Stack;
  */
 public class PolishFormAlgorithm implements PolishFormInterface {
 
+    private ArrayList<String> polishF;
+
+    public PolishFormAlgorithm() {
+        polishF = new ArrayList<String>();
+    }
 
     /**
      * Called by onClick method if user press "=" button
@@ -63,7 +68,6 @@ public class PolishFormAlgorithm implements PolishFormInterface {
     @Override
     public ArrayList<String> toPolishForm(String equationString){
         int i = 0;
-        ArrayList<String> polishF = new ArrayList<String>();
         Stack<Character> operators = new Stack<Character>();
         String number = "";
         while(i < equationString.length()){

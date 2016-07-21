@@ -33,7 +33,7 @@ public class ShowResultsActivity extends AppCompatActivity {
             textView.setBackgroundResource(R.color.blue);
             textView.setTextColor(Color.BLACK);
 
-            textView.setText("Date:    " + key + '\n' + "Result:    " + resultsMap.get(key));
+            textView.setText("Date:    " + key + '\n' + "Result:    " + resultsMap.get(key) + '\n');
             myLinearLayout.addView(textView);
         }
     }
