@@ -52,6 +52,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         resultTextView.setText("0");
 
         resultsMap = new HashMap<String, Double>();
+        resultsMap.put("asd", 1.0);
+        resultsMap.put("asd2", 4.0);
+        resultsMap.put("asd3", 6.4);
+        resultsMap.put("asd4", 8.0);
+        resultsMap.put("asd5", 1.7);
     }
 
 
@@ -92,6 +97,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /**
+     * Called by onClick method if user press "=" button
+     * Returns a double that calculated from an equation
+     * it will be wrote to the reult textview
+     * @param components contains the operators and numbers in a row
+     * @return calculated result
+     */
     public double reversePolishForm(ArrayList<String> components) {
         //if(components.isEmpty()) return 0;
         Stack<Double> stack = new Stack<Double>();;
@@ -183,7 +195,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-    /** Called when the user clicks the "show results" button */
+    /**
+     * Called when the user clicks the "show results" button
+     * create new intent to ShowResultsActivity (it will show a list of the saved results)
+     * put a map into extras which contains the saved results by the user
+     * then start activity with this intent
+     * @param view
+     */
     public void showResults(View view) {
         Intent intent = new Intent(this, ShowResultsActivity.class);
         intent.putExtra(EXTRA_RESULT, (Serializable) resultsMap);
