@@ -1,47 +1,33 @@
 package com.example.totha.mycalculator;
 
 import android.content.Intent;
-import android.os.SystemClock;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.GridLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.Stack;
 import java.util.TreeSet;
-
-
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
+    PolishFormAlgorithm polishForm;
     TextView resultTextView;
     StringBuilder rawStringBuilder;
     Map<String, Double> resultsMap;
 
     public final static String EXTRA_RESULT = "com.mycompany.calculator.MESSAGE";
 
-
     Button saveResult;
     boolean resultIsCalculated;
+
     String lastInput;
     Set<String> operatorSet;
 
@@ -51,9 +37,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         resultTextView = (TextView) findViewById(R.id.resultTextView);
-        GridLayout buttonGridLayout = (GridLayout) findViewById(R.id.buttonGridLayout);
-        resultsMap = new HashMap<String, Double>();
+        TableLayout buttonGridLayout = (TableLayout) findViewById(R.id.buttonGridLayout);
 
+        polishForm = new PolishFormAlgorithm();
+        resultsMap = new HashMap<String, Double>();
 
         resultTextView = (TextView) findViewById(R.id.resultTextView);
         resultTextView.setMovementMethod(new ScrollingMovementMethod());
@@ -63,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         saveResult = (Button)findViewById(R.id.saveResult);
         saveResult.setEnabled(false);
+
 
         lastInput = "";
 
@@ -116,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else if(buttonText.equals("=") && !operatorSet.contains(lastInput))
         {
             String finalString = rawStringBuilder.toString();
-            Double result = new Double(reversePolishForm(polishForm(finalString)));
+            Double result = new Double(polishForm.reversePolishForm(polishForm.toPolishForm(finalString)));
 
             if(result % 1 == 0)
             {
@@ -141,48 +129,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    /**
-     * Called by onClick method if user press "=" button
-     * Returns a double that calculated from an equation
-     * it will be wrote to the reult textview
-     * @param components contains the operators and numbers in a row
-     * @return calculated result
-     */
-    public double reversePolishForm(ArrayList<String> components) {
-        if(components.isEmpty()) return 0;
-        Stack<Double> stack = new Stack<Double>();;
-        double num1;
-        double num2;
-
-        for(String comp : components){
-            if(comp.equals("+")) {
-                num2 = stack.pop();
-                num1 = stack.pop();
-                stack.push(num1 + num2);
-            }
-            else if(comp.equals("-")) {
-                num2 = stack.pop();
-                num1 = stack.pop();
-                stack.push(num1 - num2);
-            }
-            else if(comp.equals("*")) {
-                num2 = stack.pop();
-                num1 = stack.pop();
-                stack.push(num1 * num2);
-            }
-            else if(comp.equals("/")){
-                num2 = stack.pop();
-                num1 = stack.pop();
-                stack.push(num1 / num2);
-            }
-            else {
-                stack.push(Double.parseDouble(comp));
-            }
-         }
-        return stack.pop();
-    }
-
-
 
     private void showAndSaveNewInput(String newInput){
         rawStringBuilder.append(newInput);
@@ -203,60 +149,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             lastInput = lengthOfRawString - 1 == 0 ? "" : Character.valueOf(rawStringBuilder.charAt(lengthOfRawString - 2)).toString();
         }
     }
-
-
-
-
-    /**
-     * Returns an ArrayList object. The equationString argument
-     * is the equation in the normal form. The polishForm method shape the
-     * equation in polish form and save the arguments (in String form) in ArrayList
-     * @param equationString is the equation in normal form
-     * @return an ArrayList
-     */
-    public ArrayList<String> polishForm(String equationString){
-        int i = 0;
-        ArrayList<String> polishF = new ArrayList<String>();
-        Stack<Character> operators = new Stack<Character>();
-        String number = "";
-        while(i < equationString.length()){
-            Character character = equationString.charAt(i);
-            if(character == '+' || character == '-'){
-                polishF.add(number);
-                number = "";
-                if(operators.isEmpty()) operators.push(character);
-                else{
-                    while(!operators.isEmpty()){
-                        Character stackCharacter = operators.pop();
-                        polishF.add(stackCharacter.toString());
-                    }
-                    operators.push(character);
-                }
-            } else if(character == '*' || character == '/'){
-                polishF.add(number);
-                number = "";
-                if(operators.isEmpty()) operators.push(character);
-                else{
-                    while(!operators.isEmpty() && (operators.peek() != '+' && operators.peek() != '-')){
-                        Character stackCharacter = operators.pop();
-                        polishF.add(stackCharacter.toString());
-                    }
-                    operators.push(character);
-                }
-            } else{
-                number += character;
-            }
-            ++i;
-        }
-        if(!number.equals("")) polishF.add(number);
-        while(!operators.isEmpty()){
-            Character stackCharacter = operators.pop();
-            polishF.add(stackCharacter.toString());
-        }
-        return polishF;
-    }
-
-
 
     /**
      * Called when the user clicks the "show results" button
