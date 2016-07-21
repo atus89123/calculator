@@ -31,11 +31,6 @@ import java.util.TreeSet;
 
 
 
-/*          TO_DO           */
-/*  - AUTOMATIC SRCOLL DOWN
-    - GRIDLAYOUT SIZE ELEMNTS
-     */
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     TextView resultTextView;
@@ -47,9 +42,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     Button saveResult;
     boolean resultIsCalculated;
-    /*String lastInput;
+    String lastInput;
     Set<String> operatorSet;
-    Stack<String> previousInputs;*/
 
 
     @Override
@@ -70,16 +64,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         saveResult = (Button)findViewById(R.id.saveResult);
         saveResult.setEnabled(false);
 
-        /*lastInput = "";
+        lastInput = "";
 
-        previousInputs = new Stack<>();
         resultTextView.setText("0");
 
         operatorSet = new TreeSet<>();
         operatorSet.add("+");
         operatorSet.add("-");
         operatorSet.add("*");
-        operatorSet.add("/");*/
+        operatorSet.add("/");
 
     }
 
@@ -89,103 +82,64 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button button =(Button)v;
         String buttonText = button.getText().toString();
-        //lastInput = buttonText;
-        String finalString = rawStringBuilder.toString();
 
-        switch(buttonText) {
-            case "=":
-                if(Character.isDigit(finalString.charAt(finalString.length() - 1))){
-                    double res = reversePolishForm(polishForm(finalString));
-                    resultTextView.setText(finalString + " = " + res);
-                    rawStringBuilder.setLength(0);
-                    rawStringBuilder.append(res);
-                    resultIsCalculated = true;
-                    saveResult.setEnabled(true);
-                }
-                break;
-            case "+":
-            case "-":
-            case "*":
-            case "/":
-                saveResult.setEnabled(false);
-                resultIsCalculated = false;
-                validateOperator(rawStringBuilder, buttonText);
-                break;
-            case ".":
-                String[] tmp = finalString.split("[^\\d\\.\\d]");
-                if (tmp.length != 0 && !tmp[tmp.length - 1].contains("."))
-                    validateOperator(rawStringBuilder, buttonText);
-                break;
-            case "Clear":
-                saveResult.setEnabled(false);
-                resultIsCalculated = false;
-                rawStringBuilder.setLength(0);
-                resultTextView.setText("0");
-                break;
-            case "Delete":
-                if(finalString.length() != 0){
-                    rawStringBuilder.setLength(finalString.length()-1);
-                    resultTextView.setText(rawStringBuilder.toString());
-                }
-                break;
-            default:
-                saveResult.setEnabled(false);
-                if (resultIsCalculated) {
-                    resultIsCalculated = false;
-                    rawStringBuilder.setLength(0);
-                }
-                rawStringBuilder.append(buttonText);
-                resultTextView.setText(rawStringBuilder.toString());
-                break;
-        }
-
-        /*if(buttonText.equals("Delete"))
+        if(buttonText.equals("Delete"))
         {
             deleteLastCharacter();
+            resultTextView.setText(rawStringBuilder.toString());
         }
         else if(buttonText.equals("Clear"))
         {
             rawStringBuilder.setLength(0);
             lastInput = "";
-            previousInputs.clear();
             resultTextView.setText("0");
         }
-        else if(operatorSet.contains(buttonText) && !previousInputs.isEmpty())
+        else if(operatorSet.contains(buttonText) && !lastInput.equals(""))
         {
             if(operatorSet.contains(lastInput) || lastInput.equals(".")) deleteLastCharacter();
             showAndSaveNewInput(buttonText);
+            lastInput = buttonText;
         }
-        else if(buttonText.equals(".") && checkForOneDotPerExpr())
+        else if(buttonText.equals(".") && android.text.TextUtils.isDigitsOnly(lastInput) && checkForOneDotPerExpr()
+                && !lastInput.equals(""))
         {
             showAndSaveNewInput(buttonText);
+            lastInput = buttonText;
         }
-        else if(buttonText.equals("="))
+        else if(operatorSet.contains(lastInput) && buttonText.equals(".")){
+            deleteLastCharacter();
+            if(checkForOneDotPerExpr()) {
+                showAndSaveNewInput(buttonText);
+                lastInput = buttonText;
+            }
+        }
+        else if(buttonText.equals("=") && !operatorSet.contains(lastInput))
         {
             String finalString = rawStringBuilder.toString();
-            double result = reversePolishForm(polishForm(finalString));
-            resultTextView.setText(finalString + " = " + result);
+            Double result = new Double(reversePolishForm(polishForm(finalString)));
+
+            if(result % 1 == 0)
+            {
+                resultTextView.setText(finalString + " = " + result.intValue());
+            }
+            else
+            {
+                resultTextView.setText(finalString + " = " + result);
+
+            }
             rawStringBuilder.setLength(0);
             lastInput = "";
-            previousInputs.clear();
+            saveResult.setEnabled(true);
 
         }
-        else
+        else if (Character.isDigit(buttonText.charAt(0)))
         {
+            saveResult.setEnabled(false);
             showAndSaveNewInput(buttonText);
-        }*/
-    }
-
-    private void validateOperator(StringBuilder rawStringBuilder, String buttonText) {
-        if (rawStringBuilder.length() != 0) {
-            char lastChar = rawStringBuilder.charAt(rawStringBuilder.length() - 1);
-            if ((lastChar == '+') || (lastChar == '-') || (lastChar == '*') ||
-                    (lastChar == '/') || lastChar == '.') {
-                rawStringBuilder.deleteCharAt(rawStringBuilder.length() - 1);
-            }
-            rawStringBuilder.append(buttonText);
-            resultTextView.setText(rawStringBuilder.toString());
+            lastInput = buttonText;
         }
     }
+
 
     /**
      * Called by onClick method if user press "=" button
@@ -229,30 +183,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    /*
+
     private void showAndSaveNewInput(String newInput){
         rawStringBuilder.append(newInput);
-        previousInputs.push(lastInput);
-        lastInput = newInput;
         resultTextView.setText(rawStringBuilder.toString());
     }
 
      private boolean checkForOneDotPerExpr()
     {
         String[] tmp = rawStringBuilder.toString().split("[^\\d\\.\\d]");
-        return (tmp.length != 0 && !tmp[tmp.length-1].contains(".") && !operatorSet.contains(lastInput));
+        return (tmp.length != 0 && !tmp[tmp.length-1].contains("."));
     }
 
     private void deleteLastCharacter()
     {
         int lengthOfRawString = rawStringBuilder.length();
-        if(lengthOfRawString > 0 && !previousInputs.isEmpty()) {
-            rawStringBuilder.deleteCharAt(lengthOfRawString - 1);
-            previousInputs.pop();
-            lastInput = previousInputs.peek();
+        if(lengthOfRawString > 0) {
+            rawStringBuilder.setLength(lengthOfRawString - 1);
+            lastInput = lengthOfRawString - 1 == 0 ? "" : Character.valueOf(rawStringBuilder.charAt(lengthOfRawString - 2)).toString();
         }
     }
-    */
+
 
 
 
@@ -335,5 +286,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Double doubleResult = Double.parseDouble(splitResult[1]);
         resultsMap.put(dateFormat.format(date), doubleResult);
         System.out.println(resultsMap.size());
+        saveResult.setEnabled(false);
     }
 }
