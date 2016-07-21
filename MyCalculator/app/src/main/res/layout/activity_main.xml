@@ -183,7 +183,6 @@
         android:id="@+id/saveResult"
         android:layout_marginTop="20dp"
         android:textSize="30sp"
-        android:onClick="onClick"
         android:theme="@style/MyOperatorButtonTheme"
         android:textStyle="bold"/>
 
@@ -193,7 +192,6 @@
         android:text="@string/showResult"
         android:id="@+id/showResult"
         android:textSize="30sp"
-        android:onClick="onClick"
         android:theme="@style/MyOperatorButtonTheme"
         android:textStyle="bold"/>
 
