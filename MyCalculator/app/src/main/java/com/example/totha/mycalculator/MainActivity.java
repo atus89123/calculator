@@ -90,10 +90,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button button =(Button)v;
         String buttonText = button.getText().toString();
         //lastInput = buttonText;
+        String finalString = rawStringBuilder.toString();
 
         switch(buttonText) {
             case "=":
-                String finalString = rawStringBuilder.toString();
                 if(Character.isDigit(finalString.charAt(finalString.length() - 1))){
                     double res = reversePolishForm(polishForm(finalString));
                     resultTextView.setText(finalString + " = " + res);
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 validateOperator(rawStringBuilder, buttonText);
                 break;
             case ".":
-                String[] tmp = rawStringBuilder.toString().split("[^\\d\\.\\d]");
+                String[] tmp = finalString.split("[^\\d\\.\\d]");
                 if (tmp.length != 0 && !tmp[tmp.length - 1].contains("."))
                     validateOperator(rawStringBuilder, buttonText);
                 break;
@@ -121,6 +121,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 resultIsCalculated = false;
                 rawStringBuilder.setLength(0);
                 resultTextView.setText("0");
+                break;
+            case "Delete":
+                if(finalString.length() != 0){
+                    rawStringBuilder.setLength(finalString.length()-1);
+                    resultTextView.setText(rawStringBuilder.toString());
+                }
                 break;
             default:
                 saveResult.setEnabled(false);
