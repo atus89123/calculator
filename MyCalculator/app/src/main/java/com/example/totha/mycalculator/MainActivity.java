@@ -5,23 +5,23 @@ import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 
 
@@ -36,8 +36,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView resultTextView;
     StringBuilder rawStringBuilder;
     Map<String, Double> resultsMap;
+
     public final static String EXTRA_RESULT = "com.mycompany.calculator.MESSAGE";
 
+
+    Button saveResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,18 +48,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         resultTextView = (TextView) findViewById(R.id.resultTextView);
         GridLayout buttonGridLayout = (GridLayout) findViewById(R.id.buttonGridLayout);
-
+        resultsMap = new HashMap<String, Double>();
         resultTextView.setMovementMethod(new ScrollingMovementMethod());
 
         rawStringBuilder = new StringBuilder();
         resultTextView.setText("0");
 
-        resultsMap = new HashMap<String, Double>();
-        resultsMap.put("asd", 1.0);
-        resultsMap.put("asd2", 4.0);
-        resultsMap.put("asd3", 6.4);
-        resultsMap.put("asd4", 8.0);
-        resultsMap.put("asd5", 1.7);
+        saveResult = (Button)findViewById(R.id.saveResult);
+        saveResult.setEnabled(false);
     }
 
 
@@ -73,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                     double res = reversePolishForm(polishForm(rawStringBuilder.toString()));
                     resultTextView.setText(rawStringBuilder.toString() + " = " + res);
+                    saveResult.setEnabled(true);
                     rawStringBuilder.setLength(0);
                 break;
 
@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             default:
+                saveResult.setEnabled(false);
                 if(buttonText.equals("Clear")){
                     rawStringBuilder.delete(0, rawStringBuilder.length());
                     resultTextView.setText("0");}
@@ -150,35 +151,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-
-    public ArrayList<String> polishForm(String s){
+    /**
+     * Returns an ArrayList object. The equationString argument
+     * is the equation in the normal form. The polishForm method shape the
+     * equation in polish form and save the arguments (in String form) in ArrayList
+     * @param equationString is the equation in normal form
+     * @return an ArrayList
+     */
+    public ArrayList<String> polishForm(String equationString){
         int i = 0;
         ArrayList<String> polishF = new ArrayList<String>();
-        Stack<Character> operator = new Stack<Character>();
+        Stack<Character> operators = new Stack<Character>();
         String number = "";
-        while(i < s.length()){
-            Character character = s.charAt(i);
+        while(i < equationString.length()){
+            Character character = equationString.charAt(i);
             if(character == '+' || character == '-'){
                 polishF.add(number);
                 number = "";
-                if(operator.isEmpty()) operator.push(character);
+                if(operators.isEmpty()) operators.push(character);
                 else{
-                    while(!operator.isEmpty()){
-                        Character stackCharacter = operator.pop();
+                    while(!operators.isEmpty()){
+                        Character stackCharacter = operators.pop();
                         polishF.add(stackCharacter.toString());
                     }
-                    operator.push(character);
+                    operators.push(character);
                 }
             } else if(character == '*' || character == '/'){
                 polishF.add(number);
                 number = "";
-                if(operator.isEmpty()) operator.push(character);
+                if(operators.isEmpty()) operators.push(character);
                 else{
-                    while(!operator.isEmpty() && (operator.peek() != '+' && operator.peek() != '-')){
-                        Character stackCharacter = operator.pop();
+                    while(!operators.isEmpty() && (operators.peek() != '+' && operators.peek() != '-')){
+                        Character stackCharacter = operators.pop();
                         polishF.add(stackCharacter.toString());
                     }
-                    operator.push(character);
+                    operators.push(character);
                 }
             } else{
                 number += character;
@@ -186,8 +193,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ++i;
         }
         if(!number.equals("")) polishF.add(number);
-        while(!operator.isEmpty()){
-            Character stackCharacter = operator.pop();
+        while(!operators.isEmpty()){
+            Character stackCharacter = operators.pop();
             polishF.add(stackCharacter.toString());
         }
         return polishF;
@@ -206,5 +213,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = new Intent(this, ShowResultsActivity.class);
         intent.putExtra(EXTRA_RESULT, (Serializable) resultsMap);
         startActivity(intent);
+    }
+
+    /**
+     * This method run, when click the Save Result button. This save the TextView text parameters
+     * in Map. The map's key is a Date and the value is a Double. The method first split the String and get the actual date
+     * then put the date and the result in a Map.
+     *
+     * @param v
+     */
+    public void saveResult(View v){
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM.dd. H:mm:ss");
+        String result = resultTextView.getText().toString();
+        String[] splitResult = result.split("=");
+        Double doubleResult = Double.parseDouble(splitResult[1]);
+        resultsMap.put(dateFormat.format(date), doubleResult);
+        System.out.println(resultsMap.size());
     }
 }

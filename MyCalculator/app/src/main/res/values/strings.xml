@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">MyCalculator</string>
     <string name="clear">Clear</string>
+    <string name="delete">Delete</string>
     <string name="one">1</string>
     <string name="two">2</string>
     <string name="three">3</string>
