@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -44,25 +45,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public final static String EXTRA_RESULT = "com.mycompany.calculator.MESSAGE";
 
-
     Button saveResult;
     boolean resultIsCalculated;
-    /*String lastInput;
-    Set<String> operatorSet;
-    Stack<String> previousInputs;*/
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         resultTextView = (TextView) findViewById(R.id.resultTextView);
-        GridLayout buttonGridLayout = (GridLayout) findViewById(R.id.buttonGridLayout);
+        TableLayout buttonGridLayout = (TableLayout) findViewById(R.id.buttonGridLayout);
 
         polishForm = new PolishFormAlgorithm();
-
         resultsMap = new HashMap<String, Double>();
-
 
         resultTextView = (TextView) findViewById(R.id.resultTextView);
         resultTextView.setMovementMethod(new ScrollingMovementMethod());
@@ -73,16 +67,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         saveResult = (Button)findViewById(R.id.saveResult);
         saveResult.setEnabled(false);
 
-        /*lastInput = "";
-
-        previousInputs = new Stack<>();
-        resultTextView.setText("0");
-
-        operatorSet = new TreeSet<>();
-        operatorSet.add("+");
-        operatorSet.add("-");
-        operatorSet.add("*");
-        operatorSet.add("/");*/
 
     }
 
@@ -141,41 +125,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 resultTextView.setText(rawStringBuilder.toString());
                 break;
         }
-
-        /*if(buttonText.equals("Delete"))
-        {
-            deleteLastCharacter();
-        }
-        else if(buttonText.equals("Clear"))
-        {
-            rawStringBuilder.setLength(0);
-            lastInput = "";
-            previousInputs.clear();
-            resultTextView.setText("0");
-        }
-        else if(operatorSet.contains(buttonText) && !previousInputs.isEmpty())
-        {
-            if(operatorSet.contains(lastInput) || lastInput.equals(".")) deleteLastCharacter();
-            showAndSaveNewInput(buttonText);
-        }
-        else if(buttonText.equals(".") && checkForOneDotPerExpr())
-        {
-            showAndSaveNewInput(buttonText);
-        }
-        else if(buttonText.equals("="))
-        {
-            String finalString = rawStringBuilder.toString();
-            double result = reversePolishForm(polishForm(finalString));
-            resultTextView.setText(finalString + " = " + result);
-            rawStringBuilder.setLength(0);
-            lastInput = "";
-            previousInputs.clear();
-
-        }
-        else
-        {
-            showAndSaveNewInput(buttonText);
-        }*/
     }
 
     private void validateOperator(StringBuilder rawStringBuilder, String buttonText) {
@@ -189,34 +138,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             resultTextView.setText(rawStringBuilder.toString());
         }
     }
-
-
-    /*
-    private void showAndSaveNewInput(String newInput){
-        rawStringBuilder.append(newInput);
-        previousInputs.push(lastInput);
-        lastInput = newInput;
-        resultTextView.setText(rawStringBuilder.toString());
-    }
-
-     private boolean checkForOneDotPerExpr()
-    {
-        String[] tmp = rawStringBuilder.toString().split("[^\\d\\.\\d]");
-        return (tmp.length != 0 && !tmp[tmp.length-1].contains(".") && !operatorSet.contains(lastInput));
-    }
-
-    private void deleteLastCharacter()
-    {
-        int lengthOfRawString = rawStringBuilder.length();
-        if(lengthOfRawString > 0 && !previousInputs.isEmpty()) {
-            rawStringBuilder.deleteCharAt(lengthOfRawString - 1);
-            previousInputs.pop();
-            lastInput = previousInputs.peek();
-        }
-    }
-    */
-
-
 
 
     /**

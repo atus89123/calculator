@@ -9,51 +9,56 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.totha.mycalculator.MainActivity"
     android:orientation="vertical"
-    android:background="#444444"
-    android:weightSum="1">
+    android:background="#444444">
 
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:id="@+id/resultTextView"
-        android:textSize="20sp"
-        android:background="#99CCFF"
-        android:gravity="bottom|right"
-        android:scrollbars = "vertical"
-        android:layout_weight="0.15" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal" >
+        android:orientation="horizontal">
 
-        <Button
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/clear"
-            android:text="@string/clear"
-            android:layout_marginTop="25dp"
-            android:onClick="onClick"
-            android:theme="@style/MyOperatorButtonTheme"
-            android:textStyle="bold"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/delete"
-            android:text="@string/delete"
-            android:layout_marginTop="25dp"
-            android:onClick="onClick"
-            android:theme="@style/MyOperatorButtonTheme"
-            android:textStyle="bold"/>
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/clear"
+                android:text="@string/clear"
+                android:onClick="onClick"
+                android:theme="@style/MyOperatorButtonTheme"
+                android:textStyle="bold"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/delete"
+                android:text="@string/delete"
+                android:onClick="onClick"
+                android:theme="@style/MyOperatorButtonTheme"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:id="@+id/resultTextView"
+            android:textSize="20sp"
+            android:background="#99CCFF"
+            android:gravity="bottom|right"
+            android:scrollbars = "vertical" />
     </LinearLayout>
 
-
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
     <TableLayout
         android:id="@+id/buttonGridLayout"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
         <TableRow
@@ -206,26 +211,30 @@
         </TableRow>
     </TableLayout>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/saveResult"
-        android:onClick="saveResult"
-        android:id="@+id/saveResult"
-        android:layout_marginTop="20dp"
-        android:textSize="30sp"
-        android:theme="@style/MyOperatorButtonTheme"
-        android:textStyle="bold"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_vertical">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/saveResult"
+                android:onClick="saveResult"
+                android:id="@+id/saveResult"
+                android:textSize="30sp"
+                android:theme="@style/MyOperatorButtonTheme"
+                android:textStyle="bold"/>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/showResult"
-        android:id="@+id/showResults"
-        android:textSize="30sp"
-        android:onClick="showResults"
-        android:theme="@style/MyOperatorButtonTheme"
-        android:textStyle="bold"/>
-
-
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/showResult"
+                android:id="@+id/showResults"
+                android:textSize="30sp"
+                android:onClick="showResults"
+                android:theme="@style/MyOperatorButtonTheme"
+                android:textStyle="bold"/>
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>
