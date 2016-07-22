@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     StringBuilder rawStringBuilder;
     Map<String, Double> resultsMap;
 
-    public final static String EXTRA_RESULT = "com.mycompany.calculator.MESSAGE";
+    public final static String EXTRA_RESULT = "titans.calculator.MESSAGE";
 
     Button saveResult;
     boolean resultIsCalculated;
@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         resultTextView = (TextView) findViewById(R.id.resultTextView);
-        TableLayout buttonGridLayout = (TableLayout) findViewById(R.id.buttonTableLayout);
 
         polishForm = new PolishFormAlgorithm();
         resultsMap = new HashMap<String, Double>();
