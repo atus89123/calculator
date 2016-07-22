@@ -21,18 +21,18 @@ public class ShowResultsActivity extends AppCompatActivity {
         LinearLayout myLinearLayout = (LinearLayout) findViewById(R.id.resultsLayout);
 
         Intent intent = getIntent();
-        ArrayList<ResultData> mResultsArrayList = new ArrayList<>( intent.getIntegerArrayListExtra(MainActivity.EXTRA_RESULT) );
+        ArrayList<ResultData> mResultsArrayList = new ArrayList<ResultData>(intent.<ResultData>getParcelableArrayListExtra(MainActivity.EXTRA_RESULT));
 
         for( ResultData e : mResultsArrayList ) {
             String date = e.getSavedResultDate();
-            double value = e.getResultValue();
+            Double value = e.getResultValue();
 
             TextView textView = new TextView(this);
             textView.setTextSize(25);
             textView.setBackgroundResource(R.color.blue);
             textView.setTextColor(Color.BLACK);
 
-            String display = "Date:    " + date + '\n' + "Result:    " + value + '\n';
+            String display = "Date:    " + date + '\n' + "Result:    " + value.toString() + '\n';
             textView.setText(display);
 
             if (myLinearLayout != null) {

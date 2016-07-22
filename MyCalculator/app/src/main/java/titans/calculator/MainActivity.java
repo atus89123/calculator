@@ -10,6 +10,7 @@ import android.widget.TextView;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.text.SimpleDateFormat;
@@ -44,8 +45,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mResultTextView = (TextView) findViewById(R.id.resultTextView);
         mResultTextView.setMovementMethod(new ScrollingMovementMethod());
 
+
         if (savedInstanceState != null) {
-            mResultsArrayList = new ArrayList<>( savedInstanceState.getParcelableArrayList(STATE_RESULTS) );
+            mResultsArrayList = new ArrayList<ResultData>(savedInstanceState.<ResultData>getParcelableArrayList(STATE_RESULTS));
             mResultTextView.setText( savedInstanceState.getString(STATE_CURRENTRESULT) );
         } else {
             mResultsArrayList = new ArrayList<>();
@@ -196,16 +198,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * in Map. The map's key is a Date and the value is a Double. The method first split the String and get the actual date
      * then put the date and the result in a Map.
      *
-     * @param v
+     * @param v not used
     */
     public void saveResult(View v) {
-        Date date = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM.dd. H:mm:ss", Locale.ENGLISH);
         String result = mResultTextView.getText().toString();
         String[] splitResult = result.split("=");
         Double doubleResult = Double.parseDouble(splitResult[1]);
-        resultsMap.put(dateFormat.format(date), doubleResult);
-        System.out.println(resultsMap.size());
+        mResultsArrayList.add(new ResultData(doubleResult));
         mSaveResultButton.setEnabled(false);
     }
 
