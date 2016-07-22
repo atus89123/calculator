@@ -8,7 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -25,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private PolishFormAlgorithm mPolishForm;
     private TextView mResultTextView;
     private StringBuilder rawStringBuilder;
-    private Map<String, Double> resultsMap;
+    private List<ResultData> mResultDataList;
 
     private Button mSaveResultButton;
     boolean mIsResultCalculated;
@@ -39,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         mPolishForm = new PolishFormAlgorithm();
-        resultsMap = new HashMap<>();
+        mResultDataList = new ArrayList<>();
 
         rawStringBuilder = new StringBuilder();
         mIsResultCalculated = false;
@@ -178,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     public void showResults(View view) {
         Intent intent = new Intent(this, ShowResultsActivity.class);
-        intent.putExtra(EXTRA_RESULT, (Serializable) resultsMap);
+        intent.putExtra(EXTRA_RESULT, (Serializable) mResultDataList);
         startActivity(intent);
     }
 
@@ -187,16 +189,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * in Map. The map's key is a Date and the value is a Double. The method first split the String and get the actual date
      * then put the date and the result in a Map.
      *
-     * @param v
+     * @param v not used
     */
     public void saveResult(View v) {
-        Date date = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM.dd. H:mm:ss", Locale.ENGLISH);
         String result = mResultTextView.getText().toString();
         String[] splitResult = result.split("=");
         Double doubleResult = Double.parseDouble(splitResult[1]);
-        resultsMap.put(dateFormat.format(date), doubleResult);
-        System.out.println(resultsMap.size());
+
+        mResultDataList.add(new ResultData(doubleResult));
         mSaveResultButton.setEnabled(false);
     }
 }
