@@ -8,9 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Set;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,11 +21,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // STATIC MEMBERS
 
     public final static String EXTRA_RESULT = "titans.calculator.MESSAGE";
+    static final String STATE_RESULTS = "savedResults";
+    static final String STATE_CURRENTRESULT = "currentResult";
 
     private PolishFormAlgorithm mPolishForm;
     private TextView mResultTextView;
     private StringBuilder rawStringBuilder;
-    private Map<String, Double> resultsMap;
+
+    private ArrayList<ResultData> mResultsArrayList;
 
     private Button mSaveResultButton;
     boolean mIsResultCalculated;
@@ -38,9 +41,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mPolishForm = new PolishFormAlgorithm();
-        resultsMap = new HashMap<>();
+        mResultTextView = (TextView) findViewById(R.id.resultTextView);
+        mResultTextView.setMovementMethod(new ScrollingMovementMethod());
 
+        if (savedInstanceState != null) {
+            mResultsArrayList = new ArrayList<>( savedInstanceState.getParcelableArrayList(STATE_RESULTS) );
+            mResultTextView.setText( savedInstanceState.getString(STATE_CURRENTRESULT) );
+        } else {
+            mResultsArrayList = new ArrayList<>();
+            mResultTextView.setText("0");
+        }
+
+        mPolishForm = new PolishFormAlgorithm();
         rawStringBuilder = new StringBuilder();
         mIsResultCalculated = false;
 
@@ -52,9 +64,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         operatorSet.add("*");
         operatorSet.add("/");
 
-        mResultTextView = (TextView) findViewById(R.id.resultTextView);
-        mResultTextView.setMovementMethod(new ScrollingMovementMethod());
-        mResultTextView.setText("0");
 
         mSaveResultButton = (Button) findViewById(R.id.saveResult);
         if (mSaveResultButton != null) {
@@ -178,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     public void showResults(View view) {
         Intent intent = new Intent(this, ShowResultsActivity.class);
-        intent.putExtra(EXTRA_RESULT, (Serializable) resultsMap);
+        intent.putParcelableArrayListExtra(EXTRA_RESULT, mResultsArrayList);
         startActivity(intent);
     }
 
@@ -198,5 +207,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         resultsMap.put(dateFormat.format(date), doubleResult);
         System.out.println(resultsMap.size());
         mSaveResultButton.setEnabled(false);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putParcelableArrayList(STATE_RESULTS, mResultsArrayList);
+        savedInstanceState.putString(STATE_CURRENTRESULT, mResultTextView.getText().toString());
+        super.onSaveInstanceState(savedInstanceState);
     }
 }
