@@ -34,7 +34,7 @@ public class ShowResultsActivity extends AppCompatActivity {
 
             String display = "Date:    " + date + '\n' + "Result:    " + value + '\n';
             textView.setText(display);
-            
+
             if (myLinearLayout != null) {
                 myLinearLayout.addView(textView);
             }
