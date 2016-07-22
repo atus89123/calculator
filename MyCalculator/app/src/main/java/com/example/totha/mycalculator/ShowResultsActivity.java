@@ -25,7 +25,7 @@ public class ShowResultsActivity extends AppCompatActivity {
 
         LinearLayout myLinearLayout = (LinearLayout) findViewById(R.id.resultsLayout);
         Intent intent = getIntent();
-        Map<String, Double> resultsMap = new HashMap<String, Double>((Map)intent.getSerializableExtra(MainActivity.EXTRA_RESULT));
+        Map<String, Double> resultsMap = new HashMap<>((Map)intent.getSerializableExtra(MainActivity.EXTRA_RESULT));
 
         for( String key : resultsMap.keySet() ) {
             TextView textView = new TextView(this);

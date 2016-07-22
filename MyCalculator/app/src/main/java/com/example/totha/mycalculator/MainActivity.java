@@ -1,6 +1,8 @@
 package com.example.totha.mycalculator;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -10,6 +12,7 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.text.SimpleDateFormat;
@@ -31,9 +34,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String lastInput;
     Set<String> operatorSet;
 
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         resultTextView = (TextView) findViewById(R.id.resultTextView);
@@ -49,7 +51,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         resultIsCalculated = false;
 
         saveResult = (Button)findViewById(R.id.saveResult);
-        saveResult.setEnabled(false);
+        if (saveResult != null) {
+            saveResult.setEnabled(false);
+        }
 
 
         lastInput = "";
@@ -78,41 +82,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         else if(buttonText.equals("Clear"))
         {
-            rawStringBuilder.setLength(0);
-            lastInput = "";
-            resultTextView.setText("0");
+            clearResultTextView();
         }
         else if(operatorSet.contains(buttonText) && !lastInput.equals(""))
         {
             if(operatorSet.contains(lastInput) || lastInput.equals(".")) deleteLastCharacter();
             showAndSaveNewInput(buttonText);
-            lastInput = buttonText;
         }
         else if(buttonText.equals(".") && android.text.TextUtils.isDigitsOnly(lastInput) && checkForOneDotPerExpr()
                 && !lastInput.equals(""))
         {
             showAndSaveNewInput(buttonText);
-            lastInput = buttonText;
         }
         else if(operatorSet.contains(lastInput) && buttonText.equals(".")){
             deleteLastCharacter();
             if(checkForOneDotPerExpr()) {
                 showAndSaveNewInput(buttonText);
-                lastInput = buttonText;
             }
         }
         else if(buttonText.equals("=") && !operatorSet.contains(lastInput))
         {
             String finalString = rawStringBuilder.toString();
-            Double result = new Double(polishForm.reversePolishForm(polishForm.toPolishForm(finalString)));
+            Double result = polishForm.reversePolishForm(polishForm.toPolishForm(finalString));
 
             if(result % 1 == 0)
             {
-                resultTextView.setText(finalString + " = " + result.intValue());
+                finalString += " = " + result.intValue();
+                resultTextView.setText(finalString);
             }
             else
             {
-                resultTextView.setText(finalString + " = " + result);
+                finalString += " = " + result;
+                resultTextView.setText(finalString);
 
             }
             rawStringBuilder.setLength(0);
@@ -124,23 +125,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         {
             saveResult.setEnabled(false);
             showAndSaveNewInput(buttonText);
-            lastInput = buttonText;
         }
     }
 
+    /**
+     * Clears the rawStringBuilder, resets
+     * the lastInput and sets the resultTextView's text to 0.
+     */
+    private void clearResultTextView(){
+        rawStringBuilder.setLength(0);
+        lastInput = "";
+        resultTextView.setText("0");
+    }
 
-
+    /**
+     * Appends the new input to the end of the rawStringbuilder,
+     * updates the resultTextView and saves the new input as last input.
+     * @param newInput is the new input parameter.
+     */
     private void showAndSaveNewInput(String newInput){
         rawStringBuilder.append(newInput);
         resultTextView.setText(rawStringBuilder.toString());
+        lastInput = newInput;
+
     }
 
+    /**
+     * Checks if the last part of the expression contains a dot.
+     * @return true, if the expression isn't empty and doesn't contain a dot.
+     */
      private boolean checkForOneDotPerExpr()
     {
         String[] tmp = rawStringBuilder.toString().split("[^\\d\\.\\d]");
         return (tmp.length != 0 && !tmp[tmp.length-1].contains("."));
     }
 
+    /**
+     * Deletes the last character of the rawStringBuilder, if it's length
+     * is not 0 and shifts the lastInput back accordingly to the deletion.
+     */
     private void deleteLastCharacter()
     {
         int lengthOfRawString = rawStringBuilder.length();
@@ -172,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     public void saveResult(View v){
         Date date = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM.dd. H:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM.dd. H:mm:ss", Locale.ENGLISH);
         String result = resultTextView.getText().toString();
         String[] splitResult = result.split("=");
         Double doubleResult = Double.parseDouble(splitResult[1]);

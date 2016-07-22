@@ -67,7 +67,7 @@
                     android:text="@string/seven"
                     android:id="@+id/seven"
                     android:onClick="onClick"
-                    android:theme="@style/MyNumberButtonTheme"/>
+                    style="@style/MyNumberButtonTheme"/>
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
