@@ -10,6 +10,7 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.text.SimpleDateFormat;
@@ -172,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     public void saveResult(View v){
         Date date = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM.dd. H:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM.dd. H:mm:ss", Locale.ENGLISH);
         String result = resultTextView.getText().toString();
         String[] splitResult = result.split("=");
         Double doubleResult = Double.parseDouble(splitResult[1]);

@@ -17,7 +17,7 @@ public class ExampleUnitTest {
 
     @Test
     public void reversePolishFormTest() {
-        MainActivity activity = new MainActivity();
+       PolishFormAlgorithm polishFormAlgorithm = new PolishFormAlgorithm();
         ArrayList<String> test = new ArrayList<String>();
         test.add("1");
         test.add("2");
@@ -26,19 +26,19 @@ public class ExampleUnitTest {
         test.add("10");
         test.add("/");
         test.add("+");
-        assertTrue("Hibas", activity.reversePolishForm(test) == 1.5);
+        assertTrue("Hibas", polishFormAlgorithm.reversePolishForm(test) == 1.5);
 
-        assertTrue("Hibas", activity.polishForm("123+123").toString().equals("[123, 123, +]"));
-        assertTrue("Hibas2", activity.polishForm("123-23-2+11*20/10").toString().equals("[123, 23, -, 2, -, 11, 20, *, 10, /, +]"));
+        assertTrue("Hibas", polishFormAlgorithm.toPolishForm("123+123").toString().equals("[123, 123, +]"));
+        assertTrue("Hibas2", polishFormAlgorithm.toPolishForm("123-23-2+11*20/10").toString().equals("[123, 23, -, 2, -, 11, 20, *, 10, /, +]"));
 
     }
 
     @Test
     public void fullPolishFormTest() {
-        MainActivity activity = new MainActivity();
+        PolishFormAlgorithm polishFormAlgorithm = new PolishFormAlgorithm();
         ArrayList<String> test = new ArrayList<String>();
         String asd = "1.5+5/2*8*1.5-2";
-        assertTrue("Hibas", activity.reversePolishForm( activity.polishForm(asd) ) == 29.5);
+        assertTrue("Hibas", polishFormAlgorithm.reversePolishForm( polishFormAlgorithm.toPolishForm(asd) ) == 29.5);
     }
 
 
