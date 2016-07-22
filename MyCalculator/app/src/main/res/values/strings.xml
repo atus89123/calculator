@@ -1,6 +1,8 @@
 <resources>
-    <string name="app_name">MyCalculator</string>
+    <string name="app_name">Titans Calculator</string>
+
     <string name="clear">Clear</string>
+    <string name="showResults_appBar">Saved Results</string>
     <string name="delete">Delete</string>
     <string name="one">1</string>
     <string name="two">2</string>
