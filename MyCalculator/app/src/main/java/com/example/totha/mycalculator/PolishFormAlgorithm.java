@@ -3,9 +3,6 @@ package com.example.totha.mycalculator;
 import java.util.ArrayList;
 import java.util.Stack;
 
-/**
- * Created by totha on 2016. 07. 21..
- */
 public class PolishFormAlgorithm implements PolishFormInterface {
 
     private ArrayList<String> polishF;

@@ -31,18 +31,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String lastInput;
     Set<String> operatorSet;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         resultTextView = (TextView) findViewById(R.id.resultTextView);
-        TableLayout buttonGridLayout = (TableLayout) findViewById(R.id.buttonGridLayout);
+        TableLayout buttonGridLayout = (TableLayout) findViewById(R.id.buttonTableLayout);
 
         polishForm = new PolishFormAlgorithm();
         resultsMap = new HashMap<String, Double>();
 
-        resultTextView = (TextView) findViewById(R.id.resultTextView);
         resultTextView.setMovementMethod(new ScrollingMovementMethod());
 
         rawStringBuilder = new StringBuilder();
@@ -50,7 +48,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         saveResult = (Button)findViewById(R.id.saveResult);
         saveResult.setEnabled(false);
-
 
         lastInput = "";
 
@@ -155,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * create new intent to ShowResultsActivity (it will show a list of the saved results)
      * put a map into extras which contains the saved results by the user
      * then start activity with this intent
-     * @param view
+     * @param view not used
      */
     public void showResults(View view) {
         Intent intent = new Intent(this, ShowResultsActivity.class);
