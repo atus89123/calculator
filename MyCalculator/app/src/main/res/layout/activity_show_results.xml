@@ -5,14 +5,14 @@
     android:background="#444444">
 
     <LinearLayout
+        android:id="@+id/resultsLayout"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="0dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:paddingTop="10dp"
-        android:id="@+id/resultsLayout"
-        android:orientation="vertical">
+        android:paddingTop="10dp">
 
     </LinearLayout>
 </ScrollView>

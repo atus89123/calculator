@@ -6,11 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.calculator.R;
-
 import java.util.HashMap;
-import java.util.Map;
 
 public class ShowResultsActivity extends AppCompatActivity {
 
@@ -18,11 +14,11 @@ public class ShowResultsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_results);
-        setTitle("Saved Results");
+        setTitle(R.string.showResults_appBar);
 
         LinearLayout myLinearLayout = (LinearLayout) findViewById(R.id.resultsLayout);
         Intent intent = getIntent();
-        Map<String, Double> resultsMap = new HashMap<>((Map)intent.getSerializableExtra(MainActivity.EXTRA_RESULT));
+        HashMap<String, Double> resultsMap = (HashMap) intent.getSerializableExtra(MainActivity.EXTRA_RESULT);
 
         for( String key : resultsMap.keySet() ) {
             TextView textView = new TextView(this);

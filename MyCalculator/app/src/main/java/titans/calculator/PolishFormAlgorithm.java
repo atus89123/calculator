@@ -1,28 +1,31 @@
 package titans.calculator;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Stack;
 
 public class PolishFormAlgorithm implements PolishFormInterface {
 
-    private ArrayList<String> polishF;
+    private ArrayList<String> mPolishForm;
 
     public PolishFormAlgorithm() {
-        polishF = new ArrayList<>();
+        mPolishForm = new ArrayList<>();
     }
 
     /**
-     * Called by onClick method if user press "=" button
-     * Returns a double that calculated from an equation
-     * it will be wrote to the reult textview
-     * @param components contains the operators and numbers in a row
-     * @return calculated result
+     * Called by onClick method if user press "=" button.ó
+     * @param components Contains the operators and numbers in a row.
+     * @return Returns a double that calculated from an equation
+     * it will be written to the result @link{TextView}.
      */
     @Override
     public double reversePolishForm(ArrayList<String> components) {
-        if(components.isEmpty()) return 0;
+        if(components.isEmpty()) {
+            return 0;
+        }
+
         Stack<Double> stack = new Stack<>();
         double num1;
         double num2;
@@ -52,6 +55,7 @@ public class PolishFormAlgorithm implements PolishFormInterface {
                 stack.push(Double.parseDouble(comp));
             }
         }
+
         return stack.pop();
     }
 
@@ -59,58 +63,71 @@ public class PolishFormAlgorithm implements PolishFormInterface {
 
     /**
      * Returns an ArrayList object. The equationString argument
-     * is the equation in the normal form. The polishForm method shape the
-     * equation in polish form and save the arguments (in String form) in ArrayList
-     * @param equationString is the equation in normal form
+     * is the equation in the normal form. The toPolishForm method shapes the
+     * equation in polish form and saves the arguments (in String form) in ArrayList
+     * @param equationString The equation in normal form.
      * @return an ArrayList
      */
     @Override
-    public ArrayList<String> toPolishForm(String equationString){
-        polishF.clear();
-        int i = 0;
+    public ArrayList<String> toPolishForm(String equationString) {
+        mPolishForm.clear();
+
         Stack<Character> operators = new Stack<>();
         String number = "";
+
+        int i = 0;
+
         while(i < equationString.length()){
+
             Character character = equationString.charAt(i);
-            if(character == '+' || character == '-'){
+
+            if(character == '+' || character == '-') {
                 number = addNumberToList(number);
-                if(operators.isEmpty()) operators.push(character);
-                else{
-                    while(!operators.isEmpty()){
+
+                if(operators.isEmpty()) {
+                    operators.push(character);
+                } else {
+                    while(!operators.isEmpty()) {
                         addLastOperator(operators);
                     }
                     operators.push(character);
                 }
-            } else if(character == '*' || character == '/'){
+            } else if (character == '*' || character == '/') {
                 number = addNumberToList(number);
-                if(operators.isEmpty()) operators.push(character);
-                else{
-                    while(!operators.isEmpty() && (operators.peek() != '+' && operators.peek() != '-')){
+
+                if (operators.isEmpty()) {
+                    operators.push(character);
+                } else {
+                    while(!operators.isEmpty() && (operators.peek() != '+' && operators.peek() != '-')) {
                         addLastOperator(operators);
                     }
                     operators.push(character);
                 }
-            } else{
+            } else {
                 number += character;
             }
             ++i;
         }
-        if(!number.equals("")) polishF.add(number);
+
+        if (!number.equals("")) {
+            mPolishForm.add(number);
+        }
+
         while(!operators.isEmpty()){
             addLastOperator(operators);
         }
-        System.out.println(polishF.toString());
-        return polishF;
+
+        return mPolishForm;
     }
 
     private void addLastOperator(Stack<Character> operators){
         Character stackCharacter = operators.pop();
-        polishF.add(stackCharacter.toString());
+        mPolishForm.add(stackCharacter.toString());
     }
 
     @NonNull
     private String addNumberToList(String number){
-        polishF.add(number);
+        mPolishForm.add(number);
         return "";
     }
 }

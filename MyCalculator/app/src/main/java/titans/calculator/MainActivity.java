@@ -6,11 +6,7 @@ import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TableLayout;
 import android.widget.TextView;
-
-import com.calculator.R;
-
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Locale;
@@ -20,17 +16,19 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TreeSet;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    PolishFormAlgorithm polishForm;
-    TextView resultTextView;
-    StringBuilder rawStringBuilder;
-    Map<String, Double> resultsMap;
+    // STATIC MEMBERS
 
     public final static String EXTRA_RESULT = "titans.calculator.MESSAGE";
 
-    Button saveResult;
-    boolean resultIsCalculated;
+    private PolishFormAlgorithm mPolishForm;
+    private TextView mResultTextView;
+    private StringBuilder rawStringBuilder;
+    private Map<String, Double> resultsMap;
+
+    private Button mSaveResultButton;
+    boolean mIsResultCalculated;
 
     String lastInput;
     Set<String> operatorSet;
@@ -39,24 +37,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        resultTextView = (TextView) findViewById(R.id.resultTextView);
 
-        polishForm = new PolishFormAlgorithm();
-        resultsMap = new HashMap<String, Double>();
-
-        resultTextView.setMovementMethod(new ScrollingMovementMethod());
+        mPolishForm = new PolishFormAlgorithm();
+        resultsMap = new HashMap<>();
 
         rawStringBuilder = new StringBuilder();
-        resultIsCalculated = false;
-
-        saveResult = (Button)findViewById(R.id.saveResult);
-        if (saveResult != null) {
-            saveResult.setEnabled(false);
-        }
+        mIsResultCalculated = false;
 
         lastInput = "";
-
-        resultTextView.setText("0");
 
         operatorSet = new TreeSet<>();
         operatorSet.add("+");
@@ -64,19 +52,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         operatorSet.add("*");
         operatorSet.add("/");
 
-    }
+        mResultTextView = (TextView) findViewById(R.id.resultTextView);
+        mResultTextView.setMovementMethod(new ScrollingMovementMethod());
+        mResultTextView.setText("0");
 
+        mSaveResultButton = (Button) findViewById(R.id.saveResult);
+        if (mSaveResultButton != null) {
+            mSaveResultButton.setEnabled(false);
+        }
+    }
 
     @Override
     public void onClick(View v) {
 
-        Button button =(Button)v;
+        if (v.getId() == R.id.main_sevenButton) {
+
+        }
+
+        Button button = (Button) v;
         String buttonText = button.getText().toString();
 
         if(buttonText.equals("Delete"))
         {
             deleteLastCharacter();
-            resultTextView.setText(rawStringBuilder.toString());
+            mResultTextView.setText(rawStringBuilder.toString());
         }
         else if(buttonText.equals("Clear"))
         {
@@ -101,49 +100,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else if(buttonText.equals("=") && !operatorSet.contains(lastInput))
         {
             String finalString = rawStringBuilder.toString();
-            Double result = polishForm.reversePolishForm(polishForm.toPolishForm(finalString));
+            Double result = mPolishForm.reversePolishForm(mPolishForm.toPolishForm(finalString));
 
             if(result % 1 == 0)
             {
                 finalString += " = " + result.intValue();
-                resultTextView.setText(finalString);
+                mResultTextView.setText(finalString);
             }
             else
             {
                 finalString += " = " + result;
-                resultTextView.setText(finalString);
+                mResultTextView.setText(finalString);
 
             }
             rawStringBuilder.setLength(0);
             lastInput = "";
-            saveResult.setEnabled(true);
+            mSaveResultButton.setEnabled(true);
 
         }
         else if (Character.isDigit(buttonText.charAt(0)))
         {
-            saveResult.setEnabled(false);
+            mSaveResultButton.setEnabled(false);
             showAndSaveNewInput(buttonText);
         }
     }
 
     /**
      * Clears the rawStringBuilder, resets
-     * the lastInput and sets the resultTextView's text to 0.
+     * the lastInput and sets the mResultTextView's text to 0.
      */
     private void clearResultTextView(){
         rawStringBuilder.setLength(0);
         lastInput = "";
-        resultTextView.setText("0");
+        mResultTextView.setText("0");
     }
 
     /**
      * Appends the new input to the end of the rawStringbuilder,
-     * updates the resultTextView and saves the new input as last input.
+     * updates the mResultTextView and saves the new input as last input.
      * @param newInput is the new input parameter.
      */
     private void showAndSaveNewInput(String newInput){
         rawStringBuilder.append(newInput);
-        resultTextView.setText(rawStringBuilder.toString());
+        mResultTextView.setText(rawStringBuilder.toString());
         lastInput = newInput;
 
     }
@@ -162,8 +161,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * Deletes the last character of the rawStringBuilder, if it's length
      * is not 0 and shifts the lastInput back accordingly to the deletion.
      */
-    private void deleteLastCharacter()
-    {
+    private void deleteLastCharacter() {
         int lengthOfRawString = rawStringBuilder.length();
         if(lengthOfRawString > 0) {
             rawStringBuilder.setLength(lengthOfRawString - 1);
@@ -185,20 +183,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     /**
-     * This method run, when click the Save Result button. This save the TextView text parameters
+     * This method runs, when click the Save Result button. This save the TextView text parameters
      * in Map. The map's key is a Date and the value is a Double. The method first split the String and get the actual date
      * then put the date and the result in a Map.
      *
      * @param v
-     */
-    public void saveResult(View v){
+    */
+    public void saveResult(View v) {
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM.dd. H:mm:ss", Locale.ENGLISH);
-        String result = resultTextView.getText().toString();
+        String result = mResultTextView.getText().toString();
         String[] splitResult = result.split("=");
         Double doubleResult = Double.parseDouble(splitResult[1]);
         resultsMap.put(dateFormat.format(date), doubleResult);
         System.out.println(resultsMap.size());
-        saveResult.setEnabled(false);
+        mSaveResultButton.setEnabled(false);
     }
 }
