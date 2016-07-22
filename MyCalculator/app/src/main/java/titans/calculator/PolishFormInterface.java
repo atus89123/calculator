@@ -1,4 +1,4 @@
-package com.example.totha.mycalculator;
+package titans.calculator;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.example.totha.mycalculator;
+package titans.calculator;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TextView;
+
+import com.calculator.R;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Locale;

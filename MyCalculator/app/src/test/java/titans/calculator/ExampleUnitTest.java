@@ -1,4 +1,4 @@
-package com.example.totha.mycalculator;
+package titans.calculator;
 
 import org.junit.Test;
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ public class ExampleUnitTest {
     @Test
     public void fullPolishFormTest() {
         PolishFormAlgorithm polishFormAlgorithm = new PolishFormAlgorithm();
-        ArrayList<String> test = new ArrayList<String>();
+        ArrayList<String> test = new ArrayList<>();
         String asd = "1.5+5/2*8*1.5-2";
         assertTrue("Hibas", polishFormAlgorithm.reversePolishForm( polishFormAlgorithm.toPolishForm(asd) ) == 29.5);
     }

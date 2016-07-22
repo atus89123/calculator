@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.totha.mycalculator.MainActivity"
     android:orientation="vertical"
     android:background="#444444">
 
@@ -26,7 +24,6 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/clear"
                 android:text="@string/clear"
                 android:onClick="onClick"
                 android:theme="@style/MyOperatorButtonTheme"
@@ -34,7 +31,6 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/delete"
                 android:text="@string/delete"
                 android:onClick="onClick"
                 android:theme="@style/MyOperatorButtonTheme"
@@ -57,7 +53,7 @@
         android:orientation="horizontal"
         android:gravity="center_horizontal">
     <TableLayout
-        android:id="@+id/buttonGridLayout"
+        android:id="@+id/buttonTableLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -70,7 +66,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/seven"
-                    android:id="@+id/seven"
                     android:onClick="onClick"
                     android:theme="@style/MyNumberButtonTheme"/>
                 <Button
@@ -78,7 +73,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/eight"
-                    android:id="@+id/eight"
                     android:onClick="onClick"
                     android:theme="@style/MyNumberButtonTheme"/>
                 <Button
@@ -86,7 +80,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/nine"
-                    android:id="@+id/nine"
                     android:onClick="onClick"
                     android:theme="@style/MyNumberButtonTheme"/>
                 <Button
@@ -94,7 +87,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/divide"
-                    android:id="@+id/divide"
                     android:onClick="onClick"
                     android:theme="@style/MyOperatorButtonTheme"/>
         </TableRow>
@@ -107,7 +99,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/four"
-                android:id="@+id/four"
                 android:onClick="onClick"
                 android:theme="@style/MyNumberButtonTheme"/>
             <Button
@@ -115,7 +106,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/five"
-                android:id="@+id/five"
                 android:onClick="onClick"
                 android:theme="@style/MyNumberButtonTheme"/>
             <Button
@@ -123,7 +113,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/six"
-                android:id="@+id/six"
                 android:onClick="onClick"
                 android:theme="@style/MyNumberButtonTheme"/>
             <Button
@@ -131,7 +120,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/multiply"
-                android:id="@+id/multiply"
                 android:onClick="onClick"
                 android:theme="@style/MyOperatorButtonTheme"/>
         </TableRow>
@@ -144,7 +132,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/one"
-                android:id="@+id/one"
                 android:onClick="onClick"
                 android:theme="@style/MyNumberButtonTheme"/>
             <Button
@@ -152,7 +139,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="@string/two"
-                android:id="@+id/two"
                 android:onClick="onClick"
                 android:theme="@style/MyNumberButtonTheme"/>
             <Button
@@ -160,7 +146,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/three"
-                android:id="@+id/three"
                 android:onClick="onClick"
                 android:theme="@style/MyNumberButtonTheme"/>
             <Button
@@ -168,7 +153,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/minus"
-                android:id="@+id/minus"
                 android:onClick="onClick"
                 android:theme="@style/MyOperatorButtonTheme"/>
         </TableRow>
@@ -181,7 +165,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/dot"
-                android:id="@+id/dot"
                 android:onClick="onClick"
                 android:theme="@style/MyOperatorButtonTheme"/>
             <Button
@@ -189,7 +172,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/zero"
-                android:id="@+id/zero"
                 android:onClick="onClick"
                 android:theme="@style/MyNumberButtonTheme"/>
             <Button
@@ -197,7 +179,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/equals"
-                android:id="@+id/equals"
                 android:onClick="onClick"
                 android:theme="@style/MyOperatorButtonTheme"/>
             <Button
@@ -205,7 +186,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/addition"
-                android:id="@+id/addition"
                 android:onClick="onClick"
                 android:theme="@style/MyOperatorButtonTheme"/>
         </TableRow>
@@ -230,7 +210,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/showResult"
-                android:id="@+id/showResults"
                 android:textSize="30sp"
                 android:onClick="showResults"
                 android:theme="@style/MyOperatorButtonTheme"

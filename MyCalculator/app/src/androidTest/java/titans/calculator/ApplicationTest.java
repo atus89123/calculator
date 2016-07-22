@@ -1,4 +1,4 @@
-package com.example.totha.mycalculator;
+package titans.calculator;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
