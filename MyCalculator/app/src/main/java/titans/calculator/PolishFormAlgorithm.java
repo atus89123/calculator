@@ -23,7 +23,7 @@ public class PolishFormAlgorithm implements PolishFormInterface {
     @Override
     public double reversePolishForm(ArrayList<String> components) {
         if(components.isEmpty()) return 0;
-        Stack<Double> stack = new Stack<>();;
+        Stack<Double> stack = new Stack<>();
         double num1;
         double num2;
 
