@@ -64,7 +64,7 @@
                     android:layout_weight="1"
                     android:text="@string/seven"
                     android:onClick="onClick"
-                    android:theme="@style/MyNumberButtonTheme"/>
+                    style="@style/MyNumberButtonTheme"/>
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

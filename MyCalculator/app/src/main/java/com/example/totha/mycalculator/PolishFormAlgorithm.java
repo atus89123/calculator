@@ -8,7 +8,7 @@ public class PolishFormAlgorithm implements PolishFormInterface {
     private ArrayList<String> polishF;
 
     public PolishFormAlgorithm() {
-        polishF = new ArrayList<String>();
+        polishF = new ArrayList<>();
     }
 
     /**
@@ -65,7 +65,7 @@ public class PolishFormAlgorithm implements PolishFormInterface {
     @Override
     public ArrayList<String> toPolishForm(String equationString){
         int i = 0;
-        Stack<Character> operators = new Stack<Character>();
+        Stack<Character> operators = new Stack<>();
         String number = "";
         while(i < equationString.length()){
             Character character = equationString.charAt(i);
