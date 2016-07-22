@@ -1,5 +1,7 @@
 package com.example.totha.mycalculator;
 
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -21,7 +23,7 @@ public class PolishFormAlgorithm implements PolishFormInterface {
     @Override
     public double reversePolishForm(ArrayList<String> components) {
         if(components.isEmpty()) return 0;
-        Stack<Double> stack = new Stack<Double>();;
+        Stack<Double> stack = new Stack<>();;
         double num1;
         double num2;
 
@@ -64,30 +66,27 @@ public class PolishFormAlgorithm implements PolishFormInterface {
      */
     @Override
     public ArrayList<String> toPolishForm(String equationString){
+        polishF.clear();
         int i = 0;
         Stack<Character> operators = new Stack<>();
         String number = "";
         while(i < equationString.length()){
             Character character = equationString.charAt(i);
             if(character == '+' || character == '-'){
-                polishF.add(number);
-                number = "";
+                number = addNumberToList(number);
                 if(operators.isEmpty()) operators.push(character);
                 else{
                     while(!operators.isEmpty()){
-                        Character stackCharacter = operators.pop();
-                        polishF.add(stackCharacter.toString());
+                        addLastOperator(operators);
                     }
                     operators.push(character);
                 }
             } else if(character == '*' || character == '/'){
-                polishF.add(number);
-                number = "";
+                number = addNumberToList(number);
                 if(operators.isEmpty()) operators.push(character);
                 else{
                     while(!operators.isEmpty() && (operators.peek() != '+' && operators.peek() != '-')){
-                        Character stackCharacter = operators.pop();
-                        polishF.add(stackCharacter.toString());
+                        addLastOperator(operators);
                     }
                     operators.push(character);
                 }
@@ -98,9 +97,20 @@ public class PolishFormAlgorithm implements PolishFormInterface {
         }
         if(!number.equals("")) polishF.add(number);
         while(!operators.isEmpty()){
-            Character stackCharacter = operators.pop();
-            polishF.add(stackCharacter.toString());
+            addLastOperator(operators);
         }
+        System.out.println(polishF.toString());
         return polishF;
+    }
+
+    private void addLastOperator(Stack<Character> operators){
+        Character stackCharacter = operators.pop();
+        polishF.add(stackCharacter.toString());
+    }
+
+    @NonNull
+    private String addNumberToList(String number){
+        polishF.add(number);
+        return "";
     }
 }
